@@ -9,6 +9,8 @@ configDotenv();
 const app = express();
 
 app.use(cors());
+
+// to convert request body to json
 app.use(express.json())
 app.use(cookieParser());
 
