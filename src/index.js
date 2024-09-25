@@ -1,0 +1,37 @@
+import { configDotenv } from "dotenv";
+import db from "./config/db.js";
+import { authRouter } from "./routers/authRouter.js";
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+
+configDotenv();
+const app = express();
+
+app.use(cors());
+app.use(express.json())
+app.use(cookieParser());
+
+const port = process.env.PORT;
+
+// Database
+
+db.on("error", () => {
+  console.error("Failed to connect to database");
+});
+
+// Database
+
+db.on("open", () => {
+  console.error("Connected to database successfully");
+});
+
+app.listen(port, () => {
+  console.log(`Server started on ${port}`);
+});
+
+app.get("/", (_, res) => {
+  return res.status(200).json("hello");
+});
+
+app.use("/api/auth", authRouter);
