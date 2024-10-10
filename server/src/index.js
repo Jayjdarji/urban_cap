@@ -5,13 +5,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-configDotenv();
 const app = express();
 
+configDotenv();
+app.use(express.json());
 app.use(cors());
-
-// to convert request body to json
-app.use(express.json())
 app.use(cookieParser());
 
 const port = process.env.PORT;
@@ -32,7 +30,7 @@ app.listen(port, () => {
   console.log(`Server started on ${port}`);
 });
 
-app.get("/", (_, res) => {
+app.get("/api", (_, res) => {
   return res.status(200).json("hello");
 });
 
