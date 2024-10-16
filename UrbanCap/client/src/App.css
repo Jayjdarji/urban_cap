@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+}
+
+.App {
+  text-align: center;
+}
+
+/* Hide the stepper on number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  /* For Chrome, Safari, and Opera */
+  margin: 0;
+  /* Remove default margin */
+}
+
+/* Hide the stepper on Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  /* For Firefox */
+}
+
+.css-1tbfoy-MuiTypography-root,
+.css-1edfpdg-MuiTypography-root {
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+
+.css-29ur8w:hover {
+  border: 1px solid #343131 !important;
+}
+
+.css-1pqm26d-MuiAvatar-img {
+  object-fit: inherit !important;
+}
+
+.css-kx1krd-MuiAvatar-root {
+  height: 200px !important;
+  width: 200px !important;
+}
+
+.css-1qnp1uu-MuiButtonBase-root-MuiButton-root {
+  font-weight: 600 !important;
+}
+
+.css-db7quw-MuiTypography-root {
+  font-size: 18px !important;
+}
+
+.css-m6ce4z-MuiTypography-root {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+
+.css-1cnobm-MuiTypography-root {
+  color: black !important;
+}
+
+.css-s6km2v-MuiFormLabel-root {
+  font-weight: 500 !important;
+  color: black !important;
+}
+
+.css-1ke64am-MuiTypography-root {
+  font-weight: 500 !important;
+}
