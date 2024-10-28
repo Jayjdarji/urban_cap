@@ -154,7 +154,6 @@ const TeamBuilding = () => {
             backgroundColor: "rgba(255, 255, 255, 0.2)",
             borderRadius: 2,
             boxShadow: "0px 10px 30px rgba(0, 0, 0, .5)",
-            maxWidth: "600px",
             width: "100%",
             maxHeight: "80vh",
             overflow: "auto",
@@ -213,6 +212,7 @@ const TeamBuilding = () => {
               <Input
                 label="Date of Event"
                 fieldName="dateOfEvent"
+                type="date"
                 formik={formik}
                 width="100%"
                 labelColor="#000"
@@ -221,6 +221,7 @@ const TeamBuilding = () => {
               <Input
                 label="Quote Deadline"
                 fieldName="quoteDeadline"
+                type="date"
                 formik={formik}
                 width="100%"
                 labelColor="#000"

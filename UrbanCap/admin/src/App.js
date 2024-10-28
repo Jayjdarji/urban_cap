@@ -1,0 +1,38 @@
+import { Container } from "@mui/material";
+import axios from "axios";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+
+import "react-toastify/dist/ReactToastify.css";
+import Login from "./components/Login";
+
+function App() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  axios.defaults.baseURL =
+    process.env.REACT_APP_API_URL || "http://localhost:5321/api";
+  axios.defaults.headers.post["Content-Type"] = "application/json";
+
+  return (
+    <Container maxWidth sx={{ height: "100vh", overflowY: "auto" }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to={"/signin"} />} />
+          <Route path="/signin" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        closeOnClick={true}
+        draggable={true}
+        pauseOnHover={true}
+      />
+    </Container>
+  );
+}
+
+export default App;
