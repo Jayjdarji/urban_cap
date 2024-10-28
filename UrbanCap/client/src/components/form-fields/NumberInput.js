@@ -86,11 +86,11 @@ const NumberInput = ({
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "#D8D2C2",
+                borderColor: "#000",
                 borderRadius: "10px",
               },
               "&:hover fieldset": {
-                borderColor: "#D8D2C2",
+                borderColor: "#000",
               },
               "&.Mui-focused fieldset": {
                 borderColor: "transparent",

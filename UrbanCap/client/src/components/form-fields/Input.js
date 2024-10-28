@@ -15,6 +15,8 @@ const Input = ({
   fieldStyle = {},
   select = false,
   options = [],
+  labelColor = "#8c8c8c",
+  borderColor = "#D8D2C2",
 }) => {
   const { values, errors, touched, handleChange, handleBlur } = formik;
   const isError = useMemo(
@@ -32,7 +34,7 @@ const Input = ({
             sx={{
               fontSize: "15px",
               marginBottom: "8px",
-              color: "#8c8c8c",
+              color: labelColor,
               fontWeight: "500",
             }}
           >
@@ -74,11 +76,11 @@ const Input = ({
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "#D8D2C2",
+                borderColor: borderColor,
                 borderRadius: "10px",
               },
               "&:hover fieldset": {
-                borderColor: "#D8D2C2",
+                borderColor: borderColor,
               },
 
               "&.Mui-focused fieldset": {

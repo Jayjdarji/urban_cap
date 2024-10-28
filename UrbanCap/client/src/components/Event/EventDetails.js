@@ -38,7 +38,7 @@ const GameDetails = () => {
         <Box
           sx={{
             padding: { xs: 3, md: 5 },
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backgroundColor: "rgba(255, 255, 255, 0.2)",
             borderRadius: 2,
             boxShadow: "0px 10px 30px rgba(0, 0, 0, .5)",
             maxWidth: "420px",
@@ -46,7 +46,7 @@ const GameDetails = () => {
             textAlign: "left",
             backdropFilter: "blur(10px)",
             border: "1px solid rgba(255, 255, 255, 0.3)",
-            color: "#fff",
+            color: "#000",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -86,12 +86,12 @@ const GameDetails = () => {
             fieldName="quantity"
             min={0}
             max={100}
-            InputProps={{ style: { color: "white" } }}
+            InputProps={{ style: { color: "#000" } }}
             width="100%"
-            btnColor="white"
+            btnColor="#000"
           />
           <CommonButton
-            sx={{ mt: 2, color: "white" }}
+            sx={{ mt: 2, color: "#000" }}
             width="77%"
             label={"Request Quote"}
           />
