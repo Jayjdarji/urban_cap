@@ -4,7 +4,8 @@ import { authRouter } from "./routers/authRouter.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import authMiddleware from "./middleware/AuthMiddleware.js";
+import { serviceRouter } from "./routers/serviceRouter.js";
 const app = express();
 
 configDotenv();
@@ -35,3 +36,5 @@ app.get("/api", (_, res) => {
 });
 
 app.use("/api/auth", authRouter);
+
+app.use("/api/services", authMiddleware, serviceRouter);

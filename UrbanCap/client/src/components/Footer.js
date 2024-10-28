@@ -1,4 +1,4 @@
-import { Facebook, Instagram, LinkedIn, Twitter } from "@mui/icons-material";
+import { Instagram, LinkedIn, Twitter } from "@mui/icons-material";
 import {
   Box,
   Container,
@@ -11,10 +11,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../Context";
 
-
 const Footer = () => {
-  const navigate = useNavigate()
-  const { openRegister, openContactUs } = useModal()
+  const navigate = useNavigate();
+  const { openRegister, openContactUs } = useModal();
   const companyLinks = [
     { text: "About Us", to: "/about-us" },
     { text: "Privacy Policy", to: "/privacy" },
@@ -41,7 +40,7 @@ const Footer = () => {
               Company
             </Typography>
             {companyLinks.map((item) => (
-              <Typography sx={{ my: 0.5, cursor: 'pointer' }}>
+              <Typography sx={{ my: 0.5, cursor: "pointer" }}>
                 <Link
                   onClick={() => navigate(item.to)}
                   color="inherit"
@@ -59,12 +58,12 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom sx={{ color: "#fff" }}>
               For Customers
             </Typography>
-            <Typography sx={{ my: 0.5, }}>
+            <Typography sx={{ my: 0.5 }}>
               <Link
-                component={'p'}
+                component={"p"}
                 color="inherit"
                 underline="hover"
-                sx={{ color: "#fff", cursor: 'pointer' }}
+                sx={{ color: "#fff", cursor: "pointer" }}
                 onClick={openContactUs}
               >
                 Contact Us
@@ -77,12 +76,12 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom sx={{ color: "#fff" }}>
               For Partners
             </Typography>
-            <Typography sx={{ my: 0.5, }}>
+            <Typography sx={{ my: 0.5 }}>
               <Link
-                component={'p'}
+                component={"p"}
                 color="inherit"
                 underline="hover"
-                sx={{ color: "#fff", cursor: 'pointer' }}
+                sx={{ color: "#fff", cursor: "pointer" }}
                 onClick={openRegister}
               >
                 Register as a Professional

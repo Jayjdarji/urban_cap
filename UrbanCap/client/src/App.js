@@ -14,6 +14,8 @@ import { useModal } from "./Context";
 import AboutUs from "./pages/AboutUs";
 import LandingPage from "./pages/LandingPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ServicePage from "./pages/ServicePage";
+import EventPage from "./pages/EventPage";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -43,11 +45,14 @@ function App() {
           <Route path="/home" element={<LandingPage />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/verification/:token" element={<VerificationPage />} />
+          <Route path="/service">
+            <Route index element={<ServicePage />} />
+          </Route>
+          <Route path="/event-planning" element={<EventPage />} />
           <Route
             path="/reset-password/:token"
             element={<ResetPasswordPage />}
           />
-          <Route path="*" element={<Navigate to={"/home"} />} />
         </Routes>
         <Modal open={isLoginOpen} onClose={closeLogin}>
           <Login />

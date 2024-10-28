@@ -25,7 +25,6 @@ function Navbar() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log("🚀🚀🚀 ~ Navbar ~ location:", location.pathname);
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -37,9 +36,9 @@ function Navbar() {
 
   const formik = useFormik({
     initialValues: {
-      currency: "CA",
+      currency: "USD",
     },
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
 
   useEffect(() => {
@@ -51,9 +50,24 @@ function Navbar() {
   }, [token]);
 
   const navLinks = [
-    { name: "Home", path: "/home" },
+    { name: "Home", path: "/home", activeWhen: ["/home"] },
     // { name: "How It Works", path: "/how-it-works" },
-    { name: "About Us", path: "/about-us" },
+    { name: "About", path: "/about-us", activeWhen: ["/about-us"] },
+    {
+      name: "Services",
+      path: "/service",
+      activeWhen: [
+        "/service",
+        "/service/home-cleaning",
+        "/service/end-of-tenancy-cleaning",
+        "/service/business-cleaning",
+      ],
+    },
+    {
+      name: "Plan a Event",
+      path: "/event-planning",
+      activeWhen: ["/event-planning"],
+    },
     // { name: "Advice", path: "/advice" },
     // { name: "For Pros", path: "/for-pros" },
   ];
@@ -69,10 +83,10 @@ function Navbar() {
     } else if (modalName === "register") {
       openRegister();
     } else {
-      handleLogout()
+      handleLogout();
     }
-    setDrawerOpen(false)
-  }
+    setDrawerOpen(false);
+  };
 
   return (
     <AppBar
@@ -106,9 +120,10 @@ function Navbar() {
               <div key={link.name} style={{ position: "relative" }}>
                 <NavLink
                   to={link.path}
-                  style={({ isActive }) => ({
+                  style={() => ({
                     textDecoration: "none",
-                    color: isActive ? "#1976d2" : "black",
+                    color:
+                      location.pathname === link.path ? "#1976d2" : "black",
                     fontWeight: 500,
                   })}
                 >
@@ -186,7 +201,7 @@ function Navbar() {
                   </ListItem>
                   <ListItem
                     button
-                    onClick={() => handleOpenModal('register')}
+                    onClick={() => handleOpenModal("register")}
                     sx={{ textAlign: "center", cursor: "pointer" }}
                   >
                     <ListItemText primary={"Register"} />
@@ -221,18 +236,27 @@ function Navbar() {
               formik={formik}
               options={[
                 { value: "USD", label: "US Dollar" },
-                { value: "CA", label: "Canada" },
+                { value: "EUR", label: "Euro" },
               ]}
             />
             {!isLoggedIn && (
               <Grid item display="flex" gap={1}>
-                <CommonButton label={"Login"} onClick={() => handleOpenModal("login")} />
-                <CommonButton label={"Register"} onClick={() => handleOpenModal("register")} />
+                <CommonButton
+                  label={"Login"}
+                  onClick={() => handleOpenModal("login")}
+                />
+                <CommonButton
+                  label={"Register"}
+                  onClick={() => handleOpenModal("register")}
+                />
               </Grid>
             )}
             {isLoggedIn && (
               <Grid item>
-                <CommonButton label={"Logout"} onClick={() => handleOpenModal("logout")} />
+                <CommonButton
+                  label={"Logout"}
+                  onClick={() => handleOpenModal("logout")}
+                />
               </Grid>
             )}
           </Grid>

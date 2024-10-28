@@ -1,51 +1,9 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
+import EventPlanning from "./Event/EventPlanning";
 import ExtraServices from "./ExtraServices";
 import SafetySection from "./SafetySection";
-
-// Static image data for each section
-const sections = [
-  {
-    category: "Home Repairs",
-    services: [
-      { label: "Plumbing", image: "/plumbing-professional-doing-his-job.jpg" },
-      { label: "Electrician", image: "/male-electrician-works-switchboard-with-electrical-connecting-cable.jpg" },
-      { label: "Carpentry", image: "https://example.com/carpentry.jpg" },
-      { label: "Painting", image: "https://example.com/painting.jpg" },
-      { label: "Roofing", image: "https://example.com/roofing.jpg" },
-    ],
-  },
-  {
-    category: "Event Planning",
-    services: [
-      { label: "Wedding Planning", image: "https://example.com/wedding.jpg" },
-      { label: "Birthday Party", image: "https://example.com/birthday.jpg" },
-      { label: "Corporate Event", image: "https://example.com/corporate.jpg" },
-      { label: "Concerts", image: "https://example.com/concerts.jpg" },
-      { label: "Private Parties", image: "https://example.com/private.jpg" },
-    ],
-  },
-  {
-    category: "Popular Near You",
-    services: [
-      { label: "Cleaning", image: "https://example.com/cleaning.jpg" },
-      { label: "Landscaping", image: "https://example.com/landscaping.jpg" },
-      { label: "Pest Control", image: "https://example.com/pestcontrol.jpg" },
-      { label: "Handyman", image: "https://example.com/handyman.jpg" },
-      { label: "Pool Cleaning", image: "https://example.com/poolcleaning.jpg" },
-    ],
-  },
-];
-
+import Services from "./Service";
 function Landing() {
   return (
     <Box>
@@ -53,7 +11,7 @@ function Landing() {
       <Box
         sx={{
           backgroundImage:
-            'url("https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg")',
+            'url("https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg")', // Replace with your background image
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "50vh",
@@ -79,7 +37,6 @@ function Landing() {
                 <TextField
                   fullWidth
                   label="What service do you need?"
-                  placeholder="Eg. plumbing, handyman, etc."
                   variant="filled"
                   sx={{
                     background: "white",
@@ -92,7 +49,6 @@ function Landing() {
                 <TextField
                   fullWidth
                   label="Where?"
-                  placeholder="Eg. zip code, city, etc."
                   variant="filled"
                   sx={{
                     background: "white",
@@ -126,43 +82,16 @@ function Landing() {
         <Typography variant="h4" align="center" gutterBottom>
           Services Offered
         </Typography>
-        <Grid container spacing={3}>
-          {sections.map((section, sectionIndex) => (
-            <Grid item xs={12} key={sectionIndex}>
-              <Typography variant="h6" gutterBottom>
-                {section.category}
-              </Typography>
-              <Grid item container spacing={2}>
-                {section.services.map((service, serviceIndex) => (
-                  <Grid item xs={12} md={2} key={serviceIndex}>
-                    <Card>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={service.image} // Use static image here
-                        alt={service.label}
-                      />
-                      <CardContent>
-                        <Typography variant="body1">
-                          {service.label}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          ))}
-        </Grid>
+        <Services />
+        <Typography variant="h4" align="center" gutterBottom sx={{ mt: 2 }}>
+          Events Planning
+        </Typography>
+        <EventPlanning />
       </Box>
 
-      {/* Extra Services */}
       <ExtraServices />
 
-      {/* Security & Priority Section */}
       <SafetySection />
-
-      {/* Partner Section */}
     </Box>
   );
 }
