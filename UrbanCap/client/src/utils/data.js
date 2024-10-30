@@ -57,3 +57,142 @@ export const EVENTS_OBJ = {
       "Team building is essential for fostering a positive and productive environment, where collaboration, trust, and shared goals drive success. By bringing individuals together, team building strengthens communication, enhances problem-solving skills, and builds resilience, allowing teams to leverage their diverse strengths. It creates a space for members to feel valued and connected, boosting morale and empowering everyone to contribute their best. A cohesive team is more adaptable, innovative, and equipped to tackle challenges, turning individual efforts into collective achievements.",
   },
 };
+
+
+
+export const PRODUCTS = [
+  {
+    label: "Smallest",
+    price: "3 USD/Unit",
+    products: [
+      "Chandelier",
+      "Commode",
+      "Chair",
+      "Coffee table",
+      "Store Curtain",
+      "Table Hanging",
+    ],
+    key: "smallest",
+  },
+  {
+    label: "Large",
+    price: "12 USD/Unit",
+    products: [
+      "Multi-door wardrobe",
+      "Wall TV Unit",
+      "Bedstead",
+      "Seat set",
+      "Bunk",
+      "TV Unit",
+    ],
+    key: "large",
+  },
+  {
+    label: "Medium",
+    price: "9 USD/Unit",
+    products: [
+      "Buffet/Pattern",
+      "Console",
+      "Table",
+      "Portmanto",
+      "Single door wardrobe",
+      "Television coffee table",
+    ],
+    key: "medium",
+  },
+  {
+    label: "Small",
+    price: "5 USD/Unit",
+    products: [
+      "Footwear",
+      "Bergerer",
+      "Bathroom cabinet",
+      "Wall shelf",
+      "Bookcase",
+      "Chiffonier ",
+    ],
+    key: "small",
+  },
+];
+
+export const CITIES = {
+  alberta: [
+    { value: "calgary", label: "Calgary" },
+    { value: "edmonton", label: "Edmonton" },
+    { value: "red_deer", label: "Red Deer" },
+    { value: "lethbridge", label: "Lethbridge" },
+    { value: "st_albert", label: "St. Albert" },
+  ],
+  british_columbia: [
+    { value: "vancouver", label: "Vancouver" },
+    { value: "victoria", label: "Victoria" },
+    { value: "surrey", label: "Surrey" },
+    { value: "burnaby", label: "Burnaby" },
+    { value: "richmond", label: "Richmond" },
+  ],
+  manitoba: [
+    { value: "winnipeg", label: "Winnipeg" },
+    { value: "brandon", label: "Brandon" },
+    { value: "steinbach", label: "Steinbach" },
+    { value: "thompson", label: "Thompson" },
+    { value: "portage_la_prairie", label: "Portage la Prairie" },
+  ],
+  ontario: [
+    { value: "toronto", label: "Toronto" },
+    { value: "ottawa", label: "Ottawa" },
+    { value: "mississauga", label: "Mississauga" },
+    { value: "brampton", label: "Brampton" },
+    { value: "hamilton", label: "Hamilton" },
+  ],
+  quebec: [
+    { value: "montreal", label: "Montreal" },
+    { value: "quebec_city", label: "Quebec City" },
+    { value: "laval", label: "Laval" },
+    { value: "gatineau", label: "Gatineau" },
+    { value: "longueuil", label: "Longueuil" },
+  ],
+  nova_scotia: [
+    { value: "halifax", label: "Halifax" },
+    { value: "sydney", label: "Sydney" },
+    { value: "dartmouth", label: "Dartmouth" },
+    { value: "truro", label: "Truro" },
+    { value: "new_glasgow", label: "New Glasgow" },
+  ],
+  new_brunswick: [
+    { value: "fredericton", label: "Fredericton" },
+    { value: "moncton", label: "Moncton" },
+    { value: "saint_john", label: "Saint John" },
+    { value: "miramichi", label: "Miramichi" },
+    { value: "bathurst", label: "Bathurst" },
+  ],
+  newfoundland_and_labrador: [
+    { value: "st_johns", label: "St. John's" },
+    { value: "mount_pearl", label: "Mount Pearl" },
+    { value: "corner_brook", label: "Corner Brook" },
+    { value: "gander", label: "Gander" },
+    { value: "happy_valley_goose_bay", label: "Happy Valley-Goose Bay" },
+  ],
+  saskatchewan: [
+    { value: "saskatoon", label: "Saskatoon" },
+    { value: "regina", label: "Regina" },
+    { value: "prince_albert", label: "Prince Albert" },
+    { value: "moose_jaw", label: "Moose Jaw" },
+    { value: "swift_current", label: "Swift Current" },
+  ],
+};
+
+export const PROVINCES = [
+  { value: "alberta", label: "Alberta" },
+  { value: "british_columbia", label: "British Columbia" },
+  { value: "manitoba", label: "Manitoba" },
+  { value: "new_brunswick", label: "New Brunswick" },
+  { value: "newfoundland_and_labrador", label: "Newfoundland and Labrador" },
+  { value: "nova_scotia", label: "Nova Scotia" },
+  { value: "ontario", label: "Ontario" },
+  { value: "prince_edward_island", label: "Prince Edward Island" },
+  { value: "quebec", label: "Quebec" },
+  { value: "saskatchewan", label: "Saskatchewan" },
+  { value: "northwest_territories", label: "Northwest Territories" },
+  { value: "nunavut", label: "Nunavut" },
+  { value: "yukon", label: "Yukon" },
+];

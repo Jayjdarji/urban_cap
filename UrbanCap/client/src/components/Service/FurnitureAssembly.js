@@ -11,10 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { CITIES, PRODUCTS, PROVINCES } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
 import SelectField from "../form-fields/SelectField";
+import { useModal } from "../../Context";
 
 const SummaryBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -37,145 +40,28 @@ const PriceTypography = styled(Typography)({
   marginBottom: "8px",
 });
 
-const productItems = [
-  {
-    label: "Smallest",
-    price: "3 USD/Unit",
-    products: [
-      "Chandelier",
-      "Commode",
-      "Chair",
-      "Coffee table",
-      "Store Curtain",
-      "Table Hanging",
-    ],
-    key: "smallest",
-  },
-  {
-    label: "Large",
-    price: "12 USD/Unit",
-    products: [
-      "Multi-door wardrobe",
-      "Wall TV Unit",
-      "Bedstead",
-      "Seat set",
-      "Bunk",
-      "TV Unit",
-    ],
-    key: "large",
-  },
-  {
-    label: "Medium",
-    price: "9 USD/Unit",
-    products: [
-      "Buffet/Pattern",
-      "Console",
-      "Table",
-      "Portmanto",
-      "Single door wardrobe",
-      "Television coffee table",
-    ],
-    key: "medium",
-  },
-  {
-    label: "Small",
-    price: "5 USD/Unit",
-    products: [
-      "Footwear",
-      "Bergerer",
-      "Bathroom cabinet",
-      "Wall shelf",
-      "Bookcase",
-      "Chiffonier ",
-    ],
-    key: "small",
-  },
-];
+const validate = (values) => {
+  const errors = {};
 
-const CITIES = {
-  alberta: [
-    { value: "calgary", label: "Calgary" },
-    { value: "edmonton", label: "Edmonton" },
-    { value: "red_deer", label: "Red Deer" },
-    { value: "lethbridge", label: "Lethbridge" },
-    { value: "st_albert", label: "St. Albert" },
-  ],
-  british_columbia: [
-    { value: "vancouver", label: "Vancouver" },
-    { value: "victoria", label: "Victoria" },
-    { value: "surrey", label: "Surrey" },
-    { value: "burnaby", label: "Burnaby" },
-    { value: "richmond", label: "Richmond" },
-  ],
-  manitoba: [
-    { value: "winnipeg", label: "Winnipeg" },
-    { value: "brandon", label: "Brandon" },
-    { value: "steinbach", label: "Steinbach" },
-    { value: "thompson", label: "Thompson" },
-    { value: "portage_la_prairie", label: "Portage la Prairie" },
-  ],
-  ontario: [
-    { value: "toronto", label: "Toronto" },
-    { value: "ottawa", label: "Ottawa" },
-    { value: "mississauga", label: "Mississauga" },
-    { value: "brampton", label: "Brampton" },
-    { value: "hamilton", label: "Hamilton" },
-  ],
-  quebec: [
-    { value: "montreal", label: "Montreal" },
-    { value: "quebec_city", label: "Quebec City" },
-    { value: "laval", label: "Laval" },
-    { value: "gatineau", label: "Gatineau" },
-    { value: "longueuil", label: "Longueuil" },
-  ],
-  nova_scotia: [
-    { value: "halifax", label: "Halifax" },
-    { value: "sydney", label: "Sydney" },
-    { value: "dartmouth", label: "Dartmouth" },
-    { value: "truro", label: "Truro" },
-    { value: "new_glasgow", label: "New Glasgow" },
-  ],
-  new_brunswick: [
-    { value: "fredericton", label: "Fredericton" },
-    { value: "moncton", label: "Moncton" },
-    { value: "saint_john", label: "Saint John" },
-    { value: "miramichi", label: "Miramichi" },
-    { value: "bathurst", label: "Bathurst" },
-  ],
-  newfoundland_and_labrador: [
-    { value: "st_johns", label: "St. John's" },
-    { value: "mount_pearl", label: "Mount Pearl" },
-    { value: "corner_brook", label: "Corner Brook" },
-    { value: "gander", label: "Gander" },
-    { value: "happy_valley_goose_bay", label: "Happy Valley-Goose Bay" },
-  ],
-  saskatchewan: [
-    { value: "saskatoon", label: "Saskatoon" },
-    { value: "regina", label: "Regina" },
-    { value: "prince_albert", label: "Prince Albert" },
-    { value: "moose_jaw", label: "Moose Jaw" },
-    { value: "swift_current", label: "Swift Current" },
-  ],
+  if (!values.province) {
+    errors.province = "Province is a required field";
+  }
+
+  if (!values.city) {
+    errors.city = "City is a required field";
+  }
+
+  if (!values.time) {
+    errors.time = "Time is a required field";
+  }
+
+  return errors;
 };
-
-const PROVINCES = [
-  { value: "alberta", label: "Alberta" },
-  { value: "british_columbia", label: "British Columbia" },
-  { value: "manitoba", label: "Manitoba" },
-  { value: "new_brunswick", label: "New Brunswick" },
-  { value: "newfoundland_and_labrador", label: "Newfoundland and Labrador" },
-  { value: "nova_scotia", label: "Nova Scotia" },
-  { value: "ontario", label: "Ontario" },
-  { value: "prince_edward_island", label: "Prince Edward Island" },
-  { value: "quebec", label: "Quebec" },
-  { value: "saskatchewan", label: "Saskatchewan" },
-  { value: "northwest_territories", label: "Northwest Territories" },
-  { value: "nunavut", label: "Nunavut" },
-  { value: "yukon", label: "Yukon" },
-];
 
 function FurnitureAssemblyForm() {
   const [date, setDate] = useState("");
+  const isLoggedIn = localStorage.getItem("token");
+  const { openLogin } = useModal();
   const [products, setProducts] = useState({
     smallest: 0,
     medium: 0,
@@ -189,9 +75,60 @@ function FurnitureAssemblyForm() {
       province: "",
       time: "",
     },
-    onSubmit: () => {},
+    validate,
+    onSubmit: async (values) => {
+      if (!isLoggedIn) {
+        openLogin();
+        return;
+      }
+      const totalCost =
+        products.smallest * 3 +
+        products.medium * 9 +
+        products.large * 12 +
+        products.small * 5;
+
+      const payload = {
+        serviceKey: "furnitureAssembly",
+        location: {
+          state: values.province,
+          city: values.city,
+        },
+        date: date,
+        time: values.time,
+        serviceData: {
+          smallest: products.smallest,
+          medium: products.medium,
+          large: products.large,
+          small: products.small,
+        },
+        totalAmount: totalCost,
+        orderSummary: {
+          date: date || "Not selected",
+          time: values.time || "Not selected",
+          location: `${findLabel(values.province, PROVINCES)}, ${findLabel(
+            values.city,
+            CITIES
+          )}`,
+          total: totalCost,
+        },
+      };
+
+      try {
+        await axios.post("/services", payload);
+        formik.resetForm();
+        setProducts({
+          smallest: 0,
+          medium: 0,
+          large: 0,
+          small: 0,
+        });
+        setDate("");
+        alert("Order successfully submitted!");
+      } catch (error) {
+        console.error("Error submitting order:", error);
+      }
+    },
   });
-  console.log("🚀🚀🚀 ~ FurnitureAssemblyForm ~ formik:", formik);
 
   const handleProductChange = (type, increment) => {
     setProducts((prev) => ({
@@ -312,7 +249,7 @@ function FurnitureAssemblyForm() {
             </Typography>
           </Grid>
           <Grid item xs={12} container spacing={2}>
-            {productItems.map((item) => (
+            {PRODUCTS.map((item) => (
               <Grid item xs={12} sm={6} key={item.key}>
                 <ProductCard>
                   <CardContent>
@@ -374,7 +311,11 @@ function FurnitureAssemblyForm() {
             <Typography variant="h5" color="#000">
               Total: {totalCost} USD
             </Typography>
-            <CommonButton sx={{ mt: 2 }} label={"Continue"} />
+            <CommonButton
+              sx={{ mt: 2 }}
+              label={"Continue"}
+              onClick={formik.submitForm}
+            />
           </SummaryBox>
         </Grid>
       </Grid>

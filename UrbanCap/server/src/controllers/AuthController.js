@@ -4,6 +4,12 @@ import _ from "lodash";
 import { User } from "../models/Users.js";
 import { sendEmailVerificationMail, sendMail } from "../utils/index.js";
 
+const adminUser = {
+  email: "admin@user.com",
+  password: "Test@123",
+  role: "admin",
+};
+
 const AuthController = {
   async signin(request, response) {
     try {
@@ -44,6 +50,45 @@ const AuthController = {
 
       return response.status(200).json({
         message: "Signin successful",
+        success: 1,
+        token,
+      });
+    } catch (error) {
+      console.log({ error });
+      return response.status(500).json({
+        message: error.message,
+        success: 0,
+      });
+    }
+  },
+
+  async adminSignin(request, response) {
+    try {
+      const { email, password } = request.body;
+
+      if (email !== adminUser.email) {
+        return response
+          .status(404)
+          .json({ message: "Invalid Credentials", success: 0 });
+      }
+
+      const isPasswordMatch = password === adminUser.password;
+
+      if (!isPasswordMatch) {
+        return response
+          .status(401)
+          .json({ message: "Invalid Credentials", success: 0 });
+      }
+
+      // Create JWT token
+      const token = jwt.sign(
+        { email: adminUser.email, role: adminUser.role },
+        process.env.JWT_SECRET || "random",
+        { expiresIn: "100h" }
+      );
+
+      return response.status(200).json({
+        message: "Admin signin successful",
         success: 1,
         token,
       });
@@ -196,29 +241,34 @@ const AuthController = {
   async resetPasswordEmail(request, response) {
     try {
       const { email } = request.body;
-  
+
       const user = await User.findOne({ email });
       if (_.isEmpty(user)) {
-        return response.status(404).json({ message: 'User not found', success: 0 });
+        return response
+          .status(404)
+          .json({ message: "User not found", success: 0 });
       }
-  
+
       const token = jwt.sign(
         { email: user.email },
-        process.env.JWT_SECRET || 'random',
-        { expiresIn: '1h' } 
+        process.env.JWT_SECRET || "random",
+        { expiresIn: "1h" }
       );
-  
+
       const resetLink = `http://localhost:3000/reset-password/${token}`;
-  
+
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
-        subject: 'Password Reset',
+        subject: "Password Reset",
         text: `Hello, please use the following link to reset your password: ${resetLink}. This link will expire in 1 hour.`,
       };
-  
+
       sendMail(mailOptions);
-      return response.status(200).json({ message: 'Password reset email sent successfully', success: 1 });
+      return response.status(200).json({
+        message: "Password reset email sent successfully",
+        success: 1,
+      });
     } catch (error) {
       return response.status(500).json({
         message: error.message,
@@ -230,36 +280,42 @@ const AuthController = {
   async resetPassword(request, response) {
     try {
       const { token, newPassword } = request.body;
-  
+
       const decodedToken = jwt.verify(
         token,
-        process.env.JWT_SECRET || 'random'
+        process.env.JWT_SECRET || "random"
       );
-  
+
       if (_.isEmpty(decodedToken)) {
-        return response.status(404).json({ message: 'Reset link is expired or invalid', success: 0 });
+        return response
+          .status(404)
+          .json({ message: "Reset link is expired or invalid", success: 0 });
       }
-  
+
       const user = await User.findOne({ email: decodedToken.email });
       if (_.isEmpty(user)) {
-        return response.status(404).json({ message: 'User not found', success: 0 });
+        return response
+          .status(404)
+          .json({ message: "User not found", success: 0 });
       }
-  
+
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
       // Update user's password
       user.password = hashedPassword;
       await user.save();
-  
-      return response.status(200).json({ message: 'Password reset successful', success: 1 });
+
+      return response
+        .status(200)
+        .json({ message: "Password reset successful", success: 1 });
     } catch (error) {
-      console.log("🚀🚀🚀 ~ resetPassword ~ error:", error)
+      console.log("🚀🚀🚀 ~ resetPassword ~ error:", error);
       return response.status(500).json({
         message: error.message,
         success: 0,
       });
     }
-  }
+  },
 };
 
 export default AuthController;

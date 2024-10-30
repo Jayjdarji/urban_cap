@@ -6,6 +6,9 @@ import "./App.css";
 
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./components/Login";
+import PrivateLayout from "./components/PrivateLayout";
+import Dashboard from "./pages/Dashboard";
+import Service from "./pages/Service";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -17,11 +20,34 @@ function App() {
   axios.defaults.headers.post["Content-Type"] = "application/json";
 
   return (
-    <Container maxWidth sx={{ height: "100vh", overflowY: "auto" }}>
+    <Container
+      maxWidth
+      sx={{ minHeight: "100vh", height: "100%", background: "#FBFBFB" }}
+      disableGutters
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to={"/signin"} />} />
           <Route path="/signin" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateLayout>
+                <Dashboard />
+              </PrivateLayout>
+            }
+          />
+          <Route path="/service">
+            <Route
+              index
+              element={
+                <PrivateLayout>
+                  <Service />
+                </PrivateLayout>
+              }
+            />
+            <Route path=":serviceKey" element={<Service />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer

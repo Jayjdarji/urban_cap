@@ -5,6 +5,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import CommonButton from "./form-fields/CommonButton";
 import Input from "./form-fields/Input";
+import { useNavigate } from "react-router-dom";
 
 // Form validation logic
 const validate = (values) => {
@@ -21,6 +22,7 @@ const validate = (values) => {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
   // Formik hook
   const formik = useFormik({
     initialValues: {
@@ -30,7 +32,7 @@ const Login = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("/auth/signin", values);
+        const response = await axios.post("/auth/admin-signin", values);
 
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
@@ -39,6 +41,7 @@ const Login = () => {
           ] = `Bearer ${response.data.token}`;
           toast.success(response.data.message);
           formik.resetForm();
+          navigate("/dashboard");
         }
       } catch (error) {
         toast.error(error.response?.data?.message || "An error occurred");
@@ -49,7 +52,7 @@ const Login = () => {
   return (
     <Box
       sx={{
-        height: "100%",
+        height: "100vh",
         width: "100%",
         display: "flex",
         justifyContent: "center",
@@ -136,7 +139,7 @@ const Login = () => {
                   formik={formik}
                   width="100%"
                 />
-                <Box
+                {/* <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -155,12 +158,13 @@ const Login = () => {
                   >
                     Forgot password?
                   </Typography>
-                </Box>
+                </Box> */}
                 <CommonButton
                   label="Login"
                   type="submit"
                   loading={formik.isSubmitting}
                   disabled={!formik.isValid || formik.isSubmitting}
+                  sx={{ mt: 2 }}
                 />
               </form>
             </Box>

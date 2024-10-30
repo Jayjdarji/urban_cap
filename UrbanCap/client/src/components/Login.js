@@ -6,10 +6,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import { useModal } from "../Context";
-import EmailVerificationModal from "./EmailVerificationModal";
 import CommonButton from "./form-fields/CommonButton";
 import Input from "./form-fields/Input";
 
@@ -28,8 +27,8 @@ const validate = (values) => {
 };
 
 const Login = () => {
-  const { openRegister, openResetPassword, closeLogin } = useModal();
-  const [isNotVerified, setIsNotVerified] = useState(false);
+  const { openRegister, openResetPassword, closeLogin, openEmailVerification } =
+    useModal();
 
   // Formik hook
   const formik = useFormik({
@@ -44,23 +43,22 @@ const Login = () => {
 
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
-          axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.token}`;
           toast.success(response.data.message);
           formik.resetForm();
           closeLogin();
         }
       } catch (error) {
         if (error.response?.data?.notVerified) {
-          setIsNotVerified(true);
+          openEmailVerification();
+          closeLogin();
         }
         toast.error(error.response?.data?.message || "An error occurred");
       }
     },
   });
-
-  const handleClose = () => {
-    setIsNotVerified(false);
-  };
 
   return (
     <Box
@@ -81,8 +79,8 @@ const Login = () => {
             overflow: "hidden",
             backgroundColor: "white",
             px: 5,
-            py: {xs: 2, md: 4},
-            width: { xs: '90%', sm: '70%', md: '60%', lg: '50%' }, // Responsive width
+            py: { xs: 2, md: 4 },
+            width: { xs: "90%", sm: "70%", md: "60%", lg: "50%" }, // Responsive width
           }}
         >
           {/* Grid layout inside the modal */}
@@ -91,7 +89,7 @@ const Login = () => {
             <Grid item xs={12} md={6}>
               <Box
                 sx={{
-                  display: {md: "flex", xs: "none"},
+                  display: { md: "flex", xs: "none" },
                   justifyContent: "center",
                   alignItems: "center",
                   height: "100%",
@@ -111,7 +109,7 @@ const Login = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  pl: {lg: 4, xs: 0},
+                  pl: { lg: 4, xs: 0 },
                   py: 2,
                 }}
               >
@@ -125,9 +123,15 @@ const Login = () => {
                   <img
                     src="https://static.toiimg.com/thumb/imgsize-3008,msid-104855461,width-375,height-210,resizemode-75/104855461.jpg"
                     alt="Urban Cap Logo"
-                    style={{ width: "auto", height: "40px", objectFit: "cover" }}
-                    />
-                  <Typography sx={{ fontSize: "20px", letterSpacing: "1px", ml: 1 }}>
+                    style={{
+                      width: "auto",
+                      height: "40px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Typography
+                    sx={{ fontSize: "20px", letterSpacing: "1px", ml: 1 }}
+                  >
                     Sign in to Urban Cap
                   </Typography>
                 </Box>
@@ -199,7 +203,6 @@ const Login = () => {
           </Grid>
         </Box>
       </ClickAwayListener>
-      <EmailVerificationModal open={isNotVerified} handleClose={handleClose} />
     </Box>
   );
 };

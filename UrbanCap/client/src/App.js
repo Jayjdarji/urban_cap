@@ -16,6 +16,7 @@ import LandingPage from "./pages/LandingPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ServicePage from "./pages/ServicePage";
 import EventPage from "./pages/EventPage";
+import EmailVerificationModal from "./components/EmailVerificationModal";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -35,6 +36,8 @@ function App() {
     closeResetPassword,
     isContactUs,
     closeContactUs,
+    isEmailVerificationOpen,
+    closeEmailVerification,
   } = useModal();
 
   return (
@@ -65,6 +68,9 @@ function App() {
         </Modal>
         <Modal open={isContactUs} onClose={closeContactUs}>
           <ContactUs />
+        </Modal>
+        <Modal open={isEmailVerificationOpen} onClose={closeEmailVerification}>
+          <EmailVerificationModal />
         </Modal>
       </BrowserRouter>
       <ToastContainer

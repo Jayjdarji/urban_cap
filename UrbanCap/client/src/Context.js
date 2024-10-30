@@ -17,14 +17,12 @@ export const Context = ({ children }) => {
   const [isContactUs, setIsContactUs] = useState(false);
   const [isEmailVerificationOpen, setIsEmailVerificationOpen] = useState(false);
 
-  // Handlers for opening modals
   const openLogin = () => setIsLoginOpen(true);
   const openRegister = () => setIsRegisterOpen(true);
   const openResetPassword = () => setIsResetPasswordOpen(true);
   const openContactUs = () => setIsContactUs(true);
   const openEmailVerification = () => setIsEmailVerificationOpen(true);
 
-  // Handlers for closing modals
   const closeLogin = () => setIsLoginOpen(false);
   const closeRegister = () => setIsRegisterOpen(false);
   const closeResetPassword = () => setIsResetPasswordOpen(false);
@@ -45,7 +43,7 @@ export const Context = ({ children }) => {
       closeLogin();
       closeResetPassword();
       closeContactUs();
-      closeEmailVerification()
+      closeEmailVerification();
     }
   }, [isRegisterOpen]);
 
@@ -75,8 +73,6 @@ export const Context = ({ children }) => {
       closeContactUs();
     }
   }, [isEmailVerificationOpen]);
-
-
 
   return (
     <ModalContext.Provider

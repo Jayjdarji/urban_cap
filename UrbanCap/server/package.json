@@ -4,7 +4,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./src/index.js"
+    "start": "nodemon ./src/index.js",
+    "seed-services": "node ./src/seeds/serviceSeeder.js",
+    "seed-events": "node ./src/seeds/eventSeeder.js",
+    "seed-users": "node ./src/seeds/userSeeder.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +22,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "moment": "^2.30.1",
     "mongoose": "^8.7.1",
     "new_server": "file:",
     "nodemailer": "^6.9.15",

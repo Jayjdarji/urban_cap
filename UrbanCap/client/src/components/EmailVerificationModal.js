@@ -2,13 +2,14 @@ import {
   Box,
   Button,
   CircularProgress,
-  Modal,
+  ClickAwayListener,
   Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React from "react";
 import { toast } from "react-toastify";
+import { useModal } from "../Context";
 import Input from "./form-fields/Input"; // Assuming you have an Input component
 
 // Validation function
@@ -22,7 +23,8 @@ const validate = (values) => {
   return errors;
 };
 
-const EmailVerificationModal = ({ open, handleClose }) => {
+const EmailVerificationModal = () => {
+  const { closeEmailVerification, openLogin } = useModal();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,7 +37,8 @@ const EmailVerificationModal = ({ open, handleClose }) => {
         });
         if (response.status === 200) {
           toast.success("Verification email sent");
-          handleClose();
+          closeEmailVerification();
+          openLogin();
         }
       } catch (error) {
         toast.error("Error sending verification email");
@@ -44,53 +47,62 @@ const EmailVerificationModal = ({ open, handleClose }) => {
   });
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          p: 4,
-          borderRadius: "12px",
-          boxShadow: 24,
-          width: 500,
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <Typography variant="h6" component="h2">
-          Email Verification Required
-        </Typography>
-        <Typography sx={{ mb: 2 }}>
-          It looks like your account has not been verified yet. Please enter
-          your email address below and we will send you a verification email to
-          complete the process.
-        </Typography>
-        <form onSubmit={formik.handleSubmit}>
-          <Input
-            fieldName="email"
-            label="Email"
-            placeholder="johndoe@gmail.com"
-            formik={formik}
-            width="100%"
-          />
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <ClickAwayListener onClickAway={closeEmailVerification}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            borderRadius: "12px",
+            overflow: "hidden",
+            backgroundColor: "white",
+            px: 5,
+            py: { xs: 2, md: 4 },
+            width: { xs: "90%", sm: "70%", md: "60%", lg: "50%" }, // Responsive width
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Email Verification Required
+          </Typography>
+          <Typography sx={{ mb: 2 }}>
+            It looks like your account has not been verified yet. Please enter
+            your email address below and we will send you a verification email
+            to complete the process. You will have to login again
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <Input
+              fieldName="email"
+              label="Email"
+              placeholder="johndoe@gmail.com"
+              formik={formik}
+              width="100%"
+            />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}
-            disabled={formik.isSubmitting || !formik.isValid}
-          >
-            {formik.isSubmitting ? (
-              <CircularProgress size={22} color="inherit" />
-            ) : (
-              "Send Verification Email"
-            )}
-          </Button>
-        </form>
-      </Box>
-    </Modal>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3 }}
+              disabled={formik.isSubmitting || !formik.isValid}
+            >
+              {formik.isSubmitting ? (
+                <CircularProgress size={22} color="inherit" />
+              ) : (
+                "Send Verification Email"
+              )}
+            </Button>
+          </form>
+        </Box>
+      </ClickAwayListener>
+    </Box>
   );
 };
 
