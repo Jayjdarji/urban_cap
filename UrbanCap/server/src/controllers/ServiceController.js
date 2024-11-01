@@ -1,5 +1,4 @@
-import { Service } from "../models/Service.js";
-import { Services } from "../models/Services.js";
+import { ServiceDetails } from "../models/Service.js";
 
 const ServiceController = {
   createService: async (req, res) => {
@@ -12,15 +11,17 @@ const ServiceController = {
         serviceData,
         totalAmount,
         orderSummary,
+        currency,
       } = req.body;
 
-      const newService = new Service({
+      const newService = new ServiceDetails({
         serviceKey,
         location,
         date,
         time,
         serviceData,
         totalAmount,
+        currency,
         orderSummary,
       });
 

@@ -17,9 +17,10 @@ import CommonButton from "./form-fields/CommonButton";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import SelectField from "./form-fields/SelectField";
+import Return from "./Return";
 
 function Navbar() {
-  const { openLogin, openRegister } = useModal();
+  const { openLogin, openRegister, currency, setCurrency } = useModal();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const token = localStorage.getItem("token");
@@ -36,10 +37,14 @@ function Navbar() {
 
   const formik = useFormik({
     initialValues: {
-      currency: "USD",
+      currency: currency,
     },
     onSubmit: () => {},
   });
+
+  useEffect(() => {
+    setCurrency(formik.values.currency);
+  }, [formik.values.currency, setCurrency]);
 
   useEffect(() => {
     if (token) {
@@ -96,7 +101,13 @@ function Navbar() {
       <Toolbar sx={{ justifyContent: "space-between", minHeight: "64px" }}>
         <Grid container alignItems={"center"} spacing={2}>
           {/* Logo */}
-          <Grid item xs={11} lg={2}>
+          <Grid
+            item
+            xs={11}
+            lg={2}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <Return />
             <img
               src="https://static.toiimg.com/thumb/imgsize-3008,msid-104855461,width-375,height-210,resizemode-75/104855461.jpg" // Placeholder for your logo
               alt="Urban Cap Logo"
@@ -236,7 +247,7 @@ function Navbar() {
               formik={formik}
               options={[
                 { value: "USD", label: "US Dollar" },
-                { value: "EUR", label: "Euro" },
+                { value: "CAD", label: "Canadian Dollar" },
               ]}
             />
             {!isLoggedIn && (

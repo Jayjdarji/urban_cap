@@ -1,15 +1,13 @@
 import { Grid } from "@mui/material";
+import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ServiceEventHeader from "../components/common/Header";
-import { SERVICES_LABELS } from "../utils/data";
-import axios from "axios";
 import OrdersTable from "../components/dashboard/OrderTable";
 const Service = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const serviceKey = params.get("serviceKey");
-
   const [service, setService] = React.useState({});
   const [orders, setOrders] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -41,7 +39,7 @@ const Service = () => {
   useEffect(() => {
     fetchService();
     fetchServiceDetails();
-  }, [fetchService, serviceKey]);
+  }, [fetchService, fetchServiceDetails, serviceKey]);
 
   return (
     <Grid item container spacing={3} px={10} mt={1} alignItems={"flex-start"}>

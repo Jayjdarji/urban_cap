@@ -63,7 +63,7 @@ export const EVENTS_OBJ = {
 export const PRODUCTS = [
   {
     label: "Smallest",
-    price: "3 USD/Unit",
+    price: "3",
     products: [
       "Chandelier",
       "Commode",
@@ -76,7 +76,7 @@ export const PRODUCTS = [
   },
   {
     label: "Large",
-    price: "12 USD/Unit",
+    price: "12",
     products: [
       "Multi-door wardrobe",
       "Wall TV Unit",
@@ -89,7 +89,7 @@ export const PRODUCTS = [
   },
   {
     label: "Medium",
-    price: "9 USD/Unit",
+    price: "9",
     products: [
       "Buffet/Pattern",
       "Console",
@@ -102,7 +102,7 @@ export const PRODUCTS = [
   },
   {
     label: "Small",
-    price: "5 USD/Unit",
+    price: "5",
     products: [
       "Footwear",
       "Bergerer",
@@ -196,3 +196,8 @@ export const PROVINCES = [
   { value: "nunavut", label: "Nunavut" },
   { value: "yukon", label: "Yukon" },
 ];
+
+export const CURRENCY_VALUE = {
+  USD: 1,
+  CAD: 1.35,
+};

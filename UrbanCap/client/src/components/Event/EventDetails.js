@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import NumberInput from "../../components/form-fields/NumberInput";
 import { EVENTS_OBJ } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
+import Return from "../Return";
 
 const GameDetails = () => {
   const location = useLocation();

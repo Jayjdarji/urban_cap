@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const serviceSchema = new mongoose.Schema(
+const service = new mongoose.Schema(
   {
     serviceKey: {
       type: String,
@@ -32,6 +32,11 @@ const serviceSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Total amount is required"],
     },
+    currency: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     orderSummary: {
       date: {
         type: String,
@@ -56,4 +61,4 @@ const serviceSchema = new mongoose.Schema(
   }
 );
 
-export const Service = mongoose.model("Service", serviceSchema);
+export const ServiceDetails = mongoose.model("ServiceDetails", service);

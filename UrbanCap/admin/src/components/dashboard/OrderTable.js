@@ -34,11 +34,11 @@ const OrdersTable = ({ orders }) => {
                 <TableCell>
                   {row.location.city + ", " + row.location.state}
                 </TableCell>
-                <TableCell>{moment(row.date).format("DD/MM/YYYY")}</TableCell>
+                <TableCell>{moment(row.date).format("MMM DD, YYYY")}</TableCell>
                 <TableCell>{row.time}</TableCell>
-                <TableCell>{row.totalAmount}</TableCell>
+                <TableCell>{`${row.totalAmount} ${row.currency}`}</TableCell>
                 <TableCell>
-                  {moment(row.createdAt).format("DD/MM/YYYY")}
+                  {moment(row.createdAt).format("MMM DD, YYYY")}
                 </TableCell>
               </TableRow>
             ))}

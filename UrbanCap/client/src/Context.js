@@ -16,6 +16,7 @@ export const Context = ({ children }) => {
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [isContactUs, setIsContactUs] = useState(false);
   const [isEmailVerificationOpen, setIsEmailVerificationOpen] = useState(false);
+  const [currency, setCurrency] = useState("USD");
 
   const openLogin = () => setIsLoginOpen(true);
   const openRegister = () => setIsRegisterOpen(true);
@@ -92,6 +93,8 @@ export const Context = ({ children }) => {
         isEmailVerificationOpen,
         openEmailVerification,
         closeEmailVerification,
+        currency,
+        setCurrency,
       }}
     >
       {children}

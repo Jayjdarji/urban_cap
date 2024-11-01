@@ -14,7 +14,7 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { CITIES, PRODUCTS, PROVINCES } from "../../utils/data";
+import { CITIES, CURRENCY_VALUE, PRODUCTS, PROVINCES } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
 import SelectField from "../form-fields/SelectField";
 import { useModal } from "../../Context";
@@ -61,7 +61,7 @@ const validate = (values) => {
 function FurnitureAssemblyForm() {
   const [date, setDate] = useState("");
   const isLoggedIn = localStorage.getItem("token");
-  const { openLogin } = useModal();
+  const { openLogin, currency } = useModal();
   const [products, setProducts] = useState({
     smallest: 0,
     medium: 0,
@@ -71,9 +71,9 @@ function FurnitureAssemblyForm() {
 
   const formik = useFormik({
     initialValues: {
-      city: "",
-      province: "",
-      time: "",
+      city: "toronto",
+      province: "ontario",
+      time: "9:00 AM",
     },
     validate,
     onSubmit: async (values) => {
@@ -102,6 +102,7 @@ function FurnitureAssemblyForm() {
           small: products.small,
         },
         totalAmount: totalCost,
+        currency,
         orderSummary: {
           date: date || "Not selected",
           time: values.time || "Not selected",
@@ -137,13 +138,39 @@ function FurnitureAssemblyForm() {
     }));
   };
 
-  const totalCost =
-    products.smallest * 3 +
-    products.medium * 9 +
-    products.large * 12 +
-    products.small * 5;
+  const totalCost = (
+    products.smallest * (3 * CURRENCY_VALUE[currency]) +
+    products.medium * (9 * CURRENCY_VALUE[currency]) +
+    products.large * (12 * CURRENCY_VALUE[currency]) +
+    products.small * (5 * CURRENCY_VALUE[currency])
+  ).toFixed(2);
 
-  const timeOptions = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
+  const timeOptions = [
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+    "9:00 PM",
+    "10:00 PM",
+    "11:00 PM",
+    "12:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+  ];
 
   const findLabel = (value, options) => {
     if (Array.isArray(options)) {
@@ -254,7 +281,9 @@ function FurnitureAssemblyForm() {
                 <ProductCard>
                   <CardContent>
                     <PriceTypography variant="subtitle1">
-                      {item.label} - {item.price}
+                      {`${item.label} - ${(
+                        item.price * CURRENCY_VALUE[currency]
+                      ).toFixed(2)} ${currency}/UNIT`}
                     </PriceTypography>
                     {item.products.map((product) => (
                       <Typography variant="body2" color="textSecondary">
@@ -295,7 +324,8 @@ function FurnitureAssemblyForm() {
                 Date: {date || "Not selected"}
               </Typography>
               <Typography variant="body2">
-                Time: {formik.values.time || "Not selected"}
+                Time:{" "}
+                {date ? formik.values.time || "Not selected" : "Not selected"}
               </Typography>
               <Typography variant="body2">
                 Location:{" "}
@@ -309,7 +339,7 @@ function FurnitureAssemblyForm() {
             </Box>
             <Divider sx={{ my: 2 }} />
             <Typography variant="h5" color="#000">
-              Total: {totalCost} USD
+              Total: {totalCost} {currency}
             </Typography>
             <CommonButton
               sx={{ mt: 2 }}

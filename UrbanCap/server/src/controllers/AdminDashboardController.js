@@ -1,5 +1,5 @@
 import { Event } from "../models/Event.js";
-import { Service } from "../models/Service.js";
+import { ServiceDetails } from "../models/Service.js";
 import { User } from "../models/Users.js";
 import { Services } from "../models/Services.js";
 
@@ -7,19 +7,14 @@ const AdminDashboardController = {
   getDashboard: async (req, res) => {
     try {
       const totalUsers = await User.countDocuments();
-      const servicesBooked = await Service.countDocuments().where({
-        serviceKey: "furnitureAssembly",
-        totalAmount: {
-          $gte: 0,
-        },
-      });
+      const servicesBooked = await ServiceDetails.countDocuments().where();
       const eventsBooked = await Event.countDocuments().where({
         numberOfPersons: {
           $gte: 2,
         },
       });
 
-      const furnitureAssemblies = await Service.countDocuments().where({
+      const furnitureAssemblies = await ServiceDetails.countDocuments().where({
         serviceKey: "furnitureAssembly",
       });
 
@@ -64,7 +59,7 @@ const AdminDashboardController = {
   getAllServiceByKey: async (req, res) => {
     try {
       const serviceKey = req.params.serviceKey;
-      const services = await Services.find({ serviceKey });
+      const services = await ServiceDetails.find({ serviceKey });
       if (!services) {
         res.status(404).json({
           message: "Service not found",
@@ -100,6 +95,27 @@ const AdminDashboardController = {
     } catch (error) {
       res.status(500).json({
         message: "Failed to get service",
+        error: error.message,
+      });
+    }
+  },
+
+  getAllServices: async (req, res) => {
+    try {
+      const services = await Services.find();
+      if (!services) {
+        res.status(404).json({
+          message: "Services not found",
+        });
+      } else {
+        res.status(200).json({
+          message: "Services found",
+          services,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to get services",
         error: error.message,
       });
     }

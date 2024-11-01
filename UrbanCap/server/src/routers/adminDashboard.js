@@ -8,5 +8,6 @@ router.get(
   AdminDashboardController.getAllServiceByKey
 );
 router.get("/:serviceKey", AdminDashboardController.getService);
+router.get("/all/services", AdminDashboardController.getAllServices);
 
 export { router as adminDashboardRouter };
