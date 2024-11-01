@@ -2,12 +2,12 @@ import { Grid } from "@mui/material";
 import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import ServiceEventHeader from "../components/common/Header";
-import OrdersTable from "../components/dashboard/OrderTable";
-const Service = () => {
+import ServiceEventHeader from "../../common/Header";
+import EventsTable from "../Events/EventsTable";
+const EventDetails = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const serviceKey = params.get("serviceKey");
+  const eventKey = params.get("eventKey");
   const [service, setService] = React.useState({});
   const [orders, setOrders] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -15,35 +15,35 @@ const Service = () => {
   const fetchService = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/admin/service/${serviceKey}`);
-      setService(response.data.service);
+      const response = await axios.get(`/admin/event/${eventKey}`);
+      setService(response.data.event);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [serviceKey]);
+  }, [eventKey]);
 
   const fetchServiceDetails = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/admin/services/${serviceKey}`);
-      setOrders(response.data.services);
+      const response = await axios.get(`/admin/events/${eventKey}`);
+      setOrders(response.data.events);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [serviceKey]);
+  }, [eventKey]);
 
   useEffect(() => {
     fetchService();
     fetchServiceDetails();
-  }, [fetchService, fetchServiceDetails, serviceKey]);
+  }, [fetchService, fetchServiceDetails]);
 
   const handleToggle = async () => {
     try {
-      await axios.get("/admin/service/toggle/" + serviceKey);
+      await axios.get("/admin/event/toggle/" + eventKey);
     } catch (error) {
       console.log(error);
     }
@@ -53,15 +53,15 @@ const Service = () => {
     <Grid item container spacing={3} px={10} mt={1} alignItems={"flex-start"}>
       <Grid item xs={12}>
         <ServiceEventHeader
-          label={service.label}
-          active={service.active}
+          label={service?.label}
+          active={service?.active}
           onToggle={handleToggle}
           loading={loading}
         />
-        <OrdersTable orders={orders} />
+        <EventsTable orders={orders} />
       </Grid>
     </Grid>
   );
 };
 
-export default Service;
+export default EventDetails;

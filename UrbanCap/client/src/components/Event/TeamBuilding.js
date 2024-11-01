@@ -72,7 +72,7 @@ const TeamBuilding = () => {
     },
   });
 
-  const { label, image, description, points } = EVENTS_OBJ["team-building"];
+  const { label, image, description, points } = EVENTS_OBJ["teamBuilding"];
 
   return (
     <Grid container sx={{ minHeight: "calc(100vh - 80px)" }}>

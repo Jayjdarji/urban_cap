@@ -10,7 +10,7 @@ const index = () => {
   const category = params.get("category");
   return !category ? (
     <EventPlanning />
-  ) : category !== "team-building" ? (
+  ) : category !== "teamBuilding" ? (
     <GameDetails />
   ) : (
     <TeamBuilding />

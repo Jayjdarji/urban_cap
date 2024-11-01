@@ -1,42 +1,30 @@
-import { Event } from "../models/Event.js";
+import { EventDetails } from "../models/EventDetails.js";
 import { ServiceDetails } from "../models/Service.js";
 import { User } from "../models/Users.js";
 import { Services } from "../models/Services.js";
+import { Event } from "../models/Event.js";
 
 const AdminDashboardController = {
   getDashboard: async (req, res) => {
     try {
       const totalUsers = await User.countDocuments();
       const servicesBooked = await ServiceDetails.countDocuments().where();
-      const eventsBooked = await Event.countDocuments().where({
-        numberOfPersons: {
-          $gte: 2,
-        },
-      });
+      const eventsBooked = await EventDetails.countDocuments().where({});
 
       const furnitureAssemblies = await ServiceDetails.countDocuments().where({
         serviceKey: "furnitureAssembly",
       });
 
-      const miniGolfCount = await Event.countDocuments().where({
+      const miniGolfCount = await EventDetails.countDocuments().where({
         eventType: "miniGolfRoundRobin",
-        numberOfPersons: {
-          $gte: 2,
-        },
       });
 
-      const videoGamesCount = await Event.countDocuments().where({
+      const videoGamesCount = await EventDetails.countDocuments().where({
         eventType: "videoGamesRoundRobin",
-        numberOfPersons: {
-          $gte: 2,
-        },
       });
 
-      const rockClimbingCount = await Event.countDocuments().where({
+      const rockClimbingCount = await EventDetails.countDocuments().where({
         eventType: "indoorRockClimbing",
-        numberOfPersons: {
-          $gte: 2,
-        },
       });
 
       res.status(200).json({
@@ -116,6 +104,93 @@ const AdminDashboardController = {
     } catch (error) {
       res.status(500).json({
         message: "Failed to get services",
+        error: error.message,
+      });
+    }
+  },
+
+  getAllEventsByKey: async (req, res) => {
+    try {
+      const eventKey = req.params.eventKey;
+      const events = await EventDetails.find({
+        eventType: eventKey,
+      }).populate({ path: "userId", select: "name email" });
+
+      if (!events) {
+        res.status(404).json({
+          message: "Events not found",
+        });
+      } else {
+        res.status(200).json({
+          message: "Events found",
+          events,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to get events",
+        error: error.message,
+      });
+    }
+  },
+
+  getEvent: async (req, res) => {
+    try {
+      const eventKey = req.params.eventKey;
+      const event = await Event.findOne({ eventName: eventKey });
+      if (!event) {
+        res.status(404).json({
+          message: "Event not found",
+        });
+      } else {
+        res.status(200).json({
+          message: "Event found",
+          event,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to get event",
+        error: error.message,
+      });
+    }
+  },
+
+  toggleEvent: async (req, res) => {
+    try {
+      const { eventKey } = req.params;
+      const event = await Event.findOne({ eventName: eventKey });
+      if (event) {
+        event.active = !event.active;
+        await event.save();
+        res.status(200).json({
+          message: "Event toggled successfully",
+          event,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to toggle event",
+        error: error.message,
+      });
+    }
+  },
+
+  toggleService: async (req, res) => {
+    try {
+      const { serviceKey } = req.params;
+      const service = await Services.findOne({ serviceName: serviceKey });
+      if (service) {
+        service.active = !service.active;
+        await service.save();
+        res.status(200).json({
+          message: "Service toggled successfully",
+          service,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to toggle service",
         error: error.message,
       });
     }

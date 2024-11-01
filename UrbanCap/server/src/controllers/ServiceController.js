@@ -1,4 +1,5 @@
 import { ServiceDetails } from "../models/Service.js";
+import { Services } from "../models/Services.js";
 
 const ServiceController = {
   createService: async (req, res) => {
@@ -36,6 +37,21 @@ const ServiceController = {
     } catch (error) {
       res.status(400).json({
         message: "Failed to book service",
+        error: error.message,
+      });
+    }
+  },
+
+  getAllServices: async (req, res) => {
+    try {
+      const services = await Services.find({ active: true });
+      res.status(200).json({
+        message: "All services fetched successfully",
+        services,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to fetch all services",
         error: error.message,
       });
     }

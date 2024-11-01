@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import PrivateLayout from "./components/PrivateLayout";
 import Dashboard from "./pages/Dashboard";
 import Service from "./pages/Service";
+import EventDetails from "./components/dashboard/Events/EventDetails";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -47,6 +48,17 @@ function App() {
               }
             />
             <Route path=":serviceKey" element={<Service />} />
+          </Route>
+          <Route path="/event-planning">
+            <Route
+              index
+              element={
+                <PrivateLayout>
+                  <EventDetails />
+                </PrivateLayout>
+              }
+            />
+            <Route path=":eventKey" element={<EventDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>

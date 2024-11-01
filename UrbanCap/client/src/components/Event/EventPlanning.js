@@ -6,13 +6,15 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { EVENTS_DATA } from "../../utils/data";
+import axios from "axios";
+import { EVENTS_IMAGE } from "../../utils/data";
 
 const EventPlanning = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [events, setEvents] = useState([]);
 
   const isPlanningPage = useMemo(() => {
     return location.pathname === "/event-planning";
@@ -21,6 +23,16 @@ const EventPlanning = () => {
   const handleClick = (category) => () => {
     navigate(`/event-planning?category=${category}`);
   };
+
+  const fetchEvents = async () => {
+    const response = await axios.get("/events/all");
+    const data = response.data;
+    setEvents(data.events);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   return (
     <Grid
@@ -33,13 +45,13 @@ const EventPlanning = () => {
         alignItems: isPlanningPage ? "center" : "unset",
       }}
     >
-      {EVENTS_DATA.map((event) => (
+      {events.map((event) => (
         <Grid
           item
           xs={12}
           md={3}
           key={event.label}
-          onClick={handleClick(event.value)}
+          onClick={handleClick(event.eventName)}
           sx={{
             cursor: "pointer",
             "&:hover": {
@@ -61,7 +73,7 @@ const EventPlanning = () => {
             <CardMedia
               component="img"
               height="180"
-              image={event.image}
+              image={EVENTS_IMAGE[event.eventName]}
               alt={event.label}
               style={{ objectFit: "cover" }}
             />

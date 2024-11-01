@@ -1,30 +1,29 @@
+// models/Service.js
 import mongoose from "mongoose";
-const event = new mongoose.Schema(
-  {
-    eventType: {
-      type: String,
-      required: true,
-      enum: [
-        "miniGolfRoundRobin",
-        "videoGamesRoundRobin",
-        "indoorRockClimbing",
-      ],
-    },
-    numberOfPersons: {
-      type: Number,
-      required: true,
-      min: [1, "At least one person is required"],
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-    additionalRequests: {
-      type: String,
-      trim: true,
-    },
+
+const event = new mongoose.Schema({
+  eventName: {
+    type: String,
+    required: true,
+    trim: true,
   },
-  { timestamps: true }
-);
+  label: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 export const Event = mongoose.model("Event", event);

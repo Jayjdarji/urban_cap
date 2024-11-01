@@ -10,6 +10,7 @@ import {
   authMiddleware,
 } from "./middleware/AuthMiddleware.js";
 import { adminDashboardRouter } from "./routers/adminDashboard.js";
+import { eventsRouter } from "./routers/eventsRouter.js";
 const app = express();
 
 configDotenv();
@@ -46,5 +47,6 @@ app.get("/api", (_, res) => {
 app.use("/api/auth", authRouter);
 
 app.use("/api/services", authMiddleware, serviceRouter);
+app.use("/api/events", authMiddleware, eventsRouter);
 
 app.use("/api/admin", adminAuthMiddleware, adminDashboardRouter);

@@ -17,18 +17,21 @@ export const Context = ({ children }) => {
   const [isContactUs, setIsContactUs] = useState(false);
   const [isEmailVerificationOpen, setIsEmailVerificationOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
+  const [isRequestQuoteOpen, setIsRequestQuoteOpen] = useState(false);
 
   const openLogin = () => setIsLoginOpen(true);
   const openRegister = () => setIsRegisterOpen(true);
   const openResetPassword = () => setIsResetPasswordOpen(true);
   const openContactUs = () => setIsContactUs(true);
   const openEmailVerification = () => setIsEmailVerificationOpen(true);
+  const openRequestQuote = () => setIsRequestQuoteOpen(true);
 
   const closeLogin = () => setIsLoginOpen(false);
   const closeRegister = () => setIsRegisterOpen(false);
   const closeResetPassword = () => setIsResetPasswordOpen(false);
   const closeContactUs = () => setIsContactUs(false);
   const closeEmailVerification = () => setIsEmailVerificationOpen(false);
+  const closeRequestQuote = () => setIsRequestQuoteOpen(false);
 
   useEffect(() => {
     if (isLoginOpen) {
@@ -95,6 +98,9 @@ export const Context = ({ children }) => {
         closeEmailVerification,
         currency,
         setCurrency,
+        isRequestQuoteOpen,
+        openRequestQuote,
+        closeRequestQuote,
       }}
     >
       {children}

@@ -12,7 +12,7 @@ const ServiceEventHeader = ({ label, onToggle, loading, active }) => {
   const handleToggle = () => {
     setIsEnabled((prev) => !prev);
     if (onToggle) {
-      onToggle(!isEnabled);
+      onToggle();
     }
   };
 

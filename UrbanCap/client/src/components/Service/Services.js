@@ -6,21 +6,24 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-const data = [
-  {
-    label: "Furniture Assembly",
-    image:
-      "https://t3.ftcdn.net/jpg/01/82/83/38/240_F_182833843_a3bRcdEWRRNJLABRuc09pJqwU8Jo8n3Y.jpg",
-    value: "furniture-assembly",
-  },
-];
+import axios from "axios";
 
 const Services = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [services, setServices] = useState([]);
+
+  const fetchServices = async () => {
+    const response = await axios.get("/services/all");
+    const data = response.data;
+    setServices(data.services);
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
 
   const isServicesPage = useMemo(() => {
     return location.pathname === "/service";
@@ -41,13 +44,13 @@ const Services = () => {
         alignItems: isServicesPage ? "center" : "unset",
       }}
     >
-      {data.map((category) => (
+      {services.map((category) => (
         <Grid
           item
           xs={12}
           md={3}
           key={category.label}
-          onClick={handleClick(category.value)}
+          onClick={handleClick(category.serviceName)}
           sx={{
             cursor: "pointer",
             "&:hover": {
@@ -94,6 +97,32 @@ const Services = () => {
           </Card>
         </Grid>
       ))}
+      {!services.length && (
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <Card
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              textAlign: "center",
+              overflow: "hidden",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <CardContent>
+              <Typography
+                variant="h6"
+                style={{ fontWeight: "bold", marginBottom: "8px" }}
+              >
+                No services available
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: "1.1rem" }}>
+                There are no services available at this time. Please try again
+                later.
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      )}
     </Grid>
   );
 };

@@ -1,16 +1,19 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Modal, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import NumberInput from "../../components/form-fields/NumberInput";
 import { EVENTS_OBJ } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
-import Return from "../Return";
+import { useModal } from "../../Context";
+import RequestQuote from "./RequestQuote";
 
 const GameDetails = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("category");
+  const { isRequestQuoteOpen, openRequestQuote, closeRequestQuote } =
+    useModal();
 
   const formik = useFormik({
     initialValues: {
@@ -85,7 +88,7 @@ const GameDetails = () => {
           <NumberInput
             formik={formik}
             fieldName="quantity"
-            min={0}
+            min={1}
             max={100}
             InputProps={{ style: { color: "#000" } }}
             width="100%"
@@ -95,6 +98,7 @@ const GameDetails = () => {
             sx={{ mt: 2, color: "#000" }}
             width="77%"
             label={"Request Quote"}
+            onClick={openRequestQuote}
           />
         </Box>
 
@@ -113,6 +117,12 @@ const GameDetails = () => {
           }}
         />
       </Grid>
+      <Modal open={isRequestQuoteOpen} onClose={closeRequestQuote}>
+        <RequestQuote
+          eventKey={category}
+          numberOfPersons={formik.values.quantity}
+        />
+      </Modal>
     </Grid>
   );
 };

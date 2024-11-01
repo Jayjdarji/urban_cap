@@ -6,22 +6,24 @@ dotenv.config();
 
 const events = [
   {
-    eventType: "miniGolfRoundRobin",
-    numberOfPersons: 2,
-    date: new Date(),
-    additionalRequests: "None",
+    eventName: "miniGolfRoundRobin",
+    label: "Mini Golf Round Robin",
+    active: true,
   },
   {
-    eventType: "videoGamesRoundRobin",
-    numberOfPersons: 2,
-    date: new Date(),
-    additionalRequests: "None",
+    eventName: "videoGamesRoundRobin",
+    label: "Video Games Round Robin",
+    active: true,
   },
   {
-    eventType: "indoorRockClimbing",
-    numberOfPersons: 2,
-    date: new Date(),
-    additionalRequests: "None",
+    eventName: "indoorRockClimbing",
+    label: "Indoor Rock Climbing",
+    active: true,
+  },
+  {
+    eventName: "teamBuilding",
+    label: "Team Building",
+    active: true,
   },
 ];
 

@@ -1,28 +1,12 @@
-export const EVENTS_DATA = [
-  {
-    label: "Mini Golf Round Robin",
-    image: "./assets/images/mini-golf.jpg",
-    value: "mini-golf",
-  },
-  {
-    label: "Video Games Round Robin",
-    image: "./assets/images/video-games.jpg",
-    value: "video-games",
-  },
-  {
-    label: "Indoor Rock Climbing",
-    image: "./assets/images/indoor-rock-climbing.jpg",
-    value: "rock-climbing",
-  },
-  {
-    label: "Team Building",
-    image: "./assets/images/team-building.jpg",
-    value: "team-building",
-  },
-];
+export const EVENTS_IMAGE = {
+  miniGolfRoundRobin: "./assets/images/mini-golf.jpg",
+  videoGamesRoundRobin: "./assets/images/video-games.jpg",
+  indoorRockClimbing: "./assets/images/indoor-rock-climbing.jpg",
+  teamBuilding: "./assets/images/team-building.jpg",
+};
 
 export const EVENTS_OBJ = {
-  "mini-golf": {
+  miniGolfRoundRobin: {
     label: "Mini Golf Round Robin",
     image: "./assets/images/mini-golf.jpg",
     value: "mini-golf",
@@ -35,21 +19,21 @@ export const EVENTS_OBJ = {
       "Score Cards and Pencils",
     ],
   },
-  "video-games": {
+  videoGamesRoundRobin: {
     label: "Video Games Round Robin",
     image: "./assets/images/video-games.jpg",
     value: "video-games",
     description:
       "Admit it, when you were a kid you used to spend hours playing all sorts of video games. Bring all your favorites to work and set up a video game tournament. Have the sales department play against the warehouse or Human Resources against upper management. Team building may never be the same!",
   },
-  "rock-climbing": {
+  indoorRockClimbing: {
     label: "Indoor Rock Climbing",
     image: "./assets/images/indoor-rock-climbing.jpg",
     value: "rock-climbing",
     description:
       "Rock Climbing is an exciting and innovative team–building exercise to test your team members' limits and encourage teamwork, communication and trust in a fun and engaging way. There are several different ways to present this competition. It can be based on speed or blindfolded or a form of a relay race. Teams can decide amongst themselves which competition they wish to enter based on their skill levels. To make this team building event even more fun there could be a prize for the best team.",
   },
-  "team-building": {
+  teamBuilding: {
     label: "Team Building",
     image: "./assets/images/team-building.jpg",
     value: "team-building",
@@ -57,8 +41,6 @@ export const EVENTS_OBJ = {
       "Team building is essential for fostering a positive and productive environment, where collaboration, trust, and shared goals drive success. By bringing individuals together, team building strengthens communication, enhances problem-solving skills, and builds resilience, allowing teams to leverage their diverse strengths. It creates a space for members to feel valued and connected, boosting morale and empowering everyone to contribute their best. A cohesive team is more adaptable, innovative, and equipped to tackle challenges, turning individual efforts into collective achievements.",
   },
 };
-
-
 
 export const PRODUCTS = [
   {
