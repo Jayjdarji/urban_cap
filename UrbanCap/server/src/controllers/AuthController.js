@@ -84,7 +84,7 @@ const AuthController = {
       const token = jwt.sign(
         { email: adminUser.email, role: adminUser.role },
         process.env.JWT_SECRET || "random",
-        { expiresIn: "100h" }
+        { expiresIn: "200h" }
       );
 
       return response.status(200).json({

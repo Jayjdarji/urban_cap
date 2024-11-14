@@ -18,14 +18,34 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import SelectField from "./form-fields/SelectField";
 import Return from "./Return";
+// import io from "socket.io-client";
 
 function Navbar() {
   const { openLogin, openRegister, currency, setCurrency } = useModal();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const location = useLocation();
+  const token = localStorage.getItem("token");
+  const [socket, setSocket] = useState(null);
+
+  // useEffect(() => {
+  //   if (token && !socket) {
+  //     const temp = io("http://localhost:5321", {
+  //       extraHeaders: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setSocket(temp);
+  //   }
+
+  //   if (socket) {
+  //     socket.on("receive_notification", ({ data }) => {
+  //       alert(data.message);
+  //     });
+  //   }
+  // }, [token, socket]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -87,8 +107,6 @@ function Navbar() {
       openLogin();
     } else if (modalName === "register") {
       openRegister();
-    } else {
-      handleLogout();
     }
     setDrawerOpen(false);
   };
@@ -111,7 +129,11 @@ function Navbar() {
             <img
               src="https://static.toiimg.com/thumb/imgsize-3008,msid-104855461,width-375,height-210,resizemode-75/104855461.jpg" // Placeholder for your logo
               alt="Urban Cap Logo"
-              style={{ height: "40px", marginRight: "10px", cursor: "pointer" }}
+              style={{
+                height: "40px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
               onClick={() => handleNavigate("/home")}
             />
           </Grid>
@@ -175,7 +197,11 @@ function Navbar() {
                 <img
                   src="https://static.toiimg.com/thumb/imgsize-3008,msid-104855461,width-375,height-210,resizemode-75/104855461.jpg" // Placeholder for your logo
                   alt="Urban Cap Logo"
-                  style={{ height: "auto", width: "100px", cursor: "pointer" }}
+                  style={{
+                    height: "auto",
+                    width: "100px",
+                    cursor: "pointer",
+                  }}
                   onClick={() => handleNavigate("/home")}
                 />
               </Box>
@@ -221,7 +247,16 @@ function Navbar() {
               ) : (
                 <ListItem
                   button
-                  onClick={() => handleOpenModal("logout")}
+                  onClick={() => handleNavigate("/orders")}
+                  sx={{ textAlign: "center", cursor: "pointer" }}
+                >
+                  <ListItemText primary={"Orders"} />
+                </ListItem>
+              )}
+              {isLoggedIn && (
+                <ListItem
+                  button
+                  onClick={() => handleLogout()}
                   sx={{ textAlign: "center", cursor: "pointer" }}
                 >
                   <ListItemText primary={"Logout"} />
@@ -264,9 +299,14 @@ function Navbar() {
             )}
             {isLoggedIn && (
               <Grid item>
+                <CommonButton label={"Logout"} onClick={() => handleLogout()} />
+              </Grid>
+            )}
+            {isLoggedIn && (
+              <Grid item>
                 <CommonButton
-                  label={"Logout"}
-                  onClick={() => handleOpenModal("logout")}
+                  label={"Orders"}
+                  onClick={() => handleNavigate("/orders")}
                 />
               </Grid>
             )}

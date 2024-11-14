@@ -1,5 +1,6 @@
 import { EventDetails } from "../models/EventDetails.js";
 import { Event } from "../models/Event.js";
+import { PastBooking } from "../models/PastBooking.js";
 
 const EventController = {
   createEvent: async (req, res) => {
@@ -18,11 +19,25 @@ const EventController = {
 
       const savedEvent = await newEvent.save();
 
+      if (!savedEvent) {
+        return res.status(400).json({
+          message: "Failed to book an event",
+          error: "Event not created",
+        });
+      }
+
+      await PastBooking.create({
+        userId: user.id,
+        startDate: date,
+        eventId: savedEvent._id,
+      });
+
       res.status(201).json({
         message: "Event Quote requested successfully",
         event: savedEvent,
       });
     } catch (error) {
+      console.log("🔊🔊🔊🔊🔊🔊 ~ createEvent: ~ error:", error);
       res.status(400).json({
         message: "Failed to request a quote",
         error: error.message,

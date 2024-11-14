@@ -17,6 +17,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ServicePage from "./pages/ServicePage";
 import EventPage from "./pages/EventPage";
 import EmailVerificationModal from "./components/EmailVerificationModal";
+import Orders from "./pages/Orders";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -56,6 +57,7 @@ function App() {
             path="/reset-password/:token"
             element={<ResetPasswordPage />}
           />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
         <Modal open={isLoginOpen} onClose={closeLogin}>
           <Login />

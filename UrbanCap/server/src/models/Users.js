@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema(
       },
       default: "CUSTOMER",
     },
+    socket: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   {
     timestamps: true,

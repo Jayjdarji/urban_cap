@@ -18,6 +18,7 @@ import { CITIES, CURRENCY_VALUE, PRODUCTS, PROVINCES } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
 import SelectField from "../form-fields/SelectField";
 import { useModal } from "../../Context";
+import { toast } from "react-toastify";
 
 const SummaryBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -124,9 +125,10 @@ function FurnitureAssemblyForm() {
           small: 0,
         });
         setDate("");
-        alert("Order successfully submitted!");
+        toast.success("Order submitted successfully");
       } catch (error) {
         console.error("Error submitting order:", error);
+        toast.error("Error submitting order");
       }
     },
   });
