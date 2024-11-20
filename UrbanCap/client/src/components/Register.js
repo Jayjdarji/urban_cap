@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { useModal } from "../Context";
 import CommonButton from "./form-fields/CommonButton";
 import Input from "./form-fields/Input";
+import { EVENTS } from "../utils/data";
 
 const phoneRegex = /^(?:\+1\s?)?(?:\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}$/;
 
@@ -56,6 +57,11 @@ const Register = () => {
   const onSubmit = async (values) => {
     try {
       delete values.confirmPassword;
+
+      if (values.userType !== "SERVICE_PROVIDER") {
+        delete values.events;
+      }
+
       const response = await axios.post("/auth/signup", values);
       if (response.status === 201) {
         toast.success(response.data.message, {
@@ -69,7 +75,8 @@ const Register = () => {
           mobile: "",
           confirmPassword: "",
           userType: "CUSTOMER",
-          countryCode: '+1'
+          countryCode: "+1",
+          events: ["miniGolfRoundRobin"],
         });
         closeRegister();
       }
@@ -87,6 +94,7 @@ const Register = () => {
       confirmPassword: "",
       userType: "CUSTOMER",
       countryCode: "CA",
+      events: ["miniGolfRoundRobin"],
     },
     validate,
     onSubmit,
@@ -94,7 +102,7 @@ const Register = () => {
 
   const countryOptions = [
     { label: "Canada", value: "CA" },
-    { label: "United States", value: "US" }
+    { label: "United States", value: "US" },
   ];
 
   return (
@@ -187,7 +195,9 @@ const Register = () => {
                     formik={formik}
                     width="100%"
                   />
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}
+                  >
                     <Input
                       label="Country"
                       fieldName="countryCode"
@@ -226,6 +236,21 @@ const Register = () => {
                       />
                     </RadioGroup>
                   </FormControl>
+                  {formik.values.userType === "SERVICE_PROVIDER" && (
+                    <Box
+                      sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}
+                    >
+                      <Input
+                        label="Events"
+                        fieldName="events"
+                        formik={formik}
+                        options={EVENTS}
+                        width="100%"
+                        select
+                        multiple
+                      />
+                    </Box>
+                  )}
                   <Input
                     fieldName="password"
                     label={"Password"}
@@ -260,7 +285,6 @@ const Register = () => {
                 >
                   <Typography
                     sx={{
-
                       cursor: "pointer",
                       fontSize: "14px",
                       fontWeight: "300",

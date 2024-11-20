@@ -3,7 +3,6 @@ import React from "react";
 import StatCard from "./StatCard";
 
 const Stats = ({ stats, loading }) => {
-  console.log("🚀🚀🚀 ~ Stats ~ stats:", stats);
   return (
     <Grid item container spacing={3} px={10} mt={1} alignItems={"flex-start"}>
       <Grid item xs={12}>
@@ -15,9 +14,15 @@ const Stats = ({ stats, loading }) => {
           Stats
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={4}>
-        <StatCard title="Total Users" number={stats?.users} loading={loading} />
-      </Grid>
+      {stats?.users !== null && (
+        <Grid item xs={12} sm={12} md={6} lg={4}>
+          <StatCard
+            title="Total Users"
+            number={stats?.users}
+            loading={loading}
+          />
+        </Grid>
+      )}
       <Grid item xs={12} sm={12} md={6} lg={4}>
         <StatCard
           title="Services Booked"

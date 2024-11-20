@@ -24,6 +24,11 @@ const services = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  providers: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: [],
+  },
 });
 
 export const Services = mongoose.model("Services", services);

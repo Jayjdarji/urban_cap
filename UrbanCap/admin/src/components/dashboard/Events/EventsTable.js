@@ -38,23 +38,27 @@ const OrdersTable = ({ orders }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((row) => (
-              <TableRow key={row._id}>
-                <TableCell>{row.userId.name}</TableCell>
-                <TableCell>{row.numberOfPersons}</TableCell>
-                <TableCell>{moment(row.date).format("MMM DD, YYYY")}</TableCell>
-                <TableCell>
-                  <IconButton
-                    onClick={() => handleOpen(row.additionalRequests)}
-                  >
-                    <VisibilityOutlinedIcon
-                      fontSize="small"
-                      sx={{ color: "#000" }}
-                    />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {orders
+              .filter((row) => !!row?.userId?.name)
+              .map((row) => (
+                <TableRow key={row._id}>
+                  <TableCell>{row?.userId?.name}</TableCell>
+                  <TableCell>{row.numberOfPersons}</TableCell>
+                  <TableCell>
+                    {moment(row.date).format("MMM DD, YYYY")}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => handleOpen(row.additionalRequests)}
+                    >
+                      <VisibilityOutlinedIcon
+                        fontSize="small"
+                        sx={{ color: "#000" }}
+                      />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <Modal open={expanded} onClose={handleClose}>

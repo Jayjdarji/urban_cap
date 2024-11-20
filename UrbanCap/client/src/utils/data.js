@@ -183,3 +183,10 @@ export const CURRENCY_VALUE = {
   USD: 1,
   CAD: 1.35,
 };
+
+export const EVENTS = [
+  { label: "Mini Golf Round Robin", value: "miniGolfRoundRobin" },
+  { label: "Video Games Round Robin", value: "videoGamesRoundRobin" },
+  { label: "Indoor Rock Climbing", value: "indoorRockClimbing" },
+  { label: "Team Building", value: "teamBuilding" },
+];

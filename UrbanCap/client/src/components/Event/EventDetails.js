@@ -1,12 +1,14 @@
 import { Box, Grid, Modal, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import NumberInput from "../../components/form-fields/NumberInput";
 import { EVENTS_OBJ } from "../../utils/data";
 import CommonButton from "../form-fields/CommonButton";
 import { useModal } from "../../Context";
 import RequestQuote from "./RequestQuote";
+import axios from "axios";
+import Input from "../form-fields/Input";
 
 const GameDetails = () => {
   const location = useLocation();
@@ -94,6 +96,7 @@ const GameDetails = () => {
             width="100%"
             btnColor="#000"
           />
+
           <CommonButton
             sx={{ mt: 2, color: "#000" }}
             width="77%"

@@ -28,6 +28,11 @@ const eventDetails = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    providerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { timestamps: true }
 );

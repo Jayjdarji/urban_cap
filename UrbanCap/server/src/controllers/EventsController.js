@@ -1,13 +1,26 @@
 import { EventDetails } from "../models/EventDetails.js";
 import { Event } from "../models/Event.js";
 import { PastBooking } from "../models/PastBooking.js";
+import { User } from "../models/Users.js";
 
 const EventController = {
   createEvent: async (req, res) => {
     try {
-      const { eventType, numberOfPersons, date, additionalRequests } = req.body;
+      const {
+        eventType,
+        numberOfPersons,
+        date,
+        additionalRequests,
+        providerId,
+      } = req.body;
 
       const user = req.user;
+
+      const payload = {};
+
+      if (providerId) {
+        payload.providerId = providerId;
+      }
 
       const newEvent = new EventDetails({
         eventType,
@@ -15,6 +28,7 @@ const EventController = {
         date,
         userId: user.id,
         additionalRequests,
+        ...payload,
       });
 
       const savedEvent = await newEvent.save();
@@ -55,6 +69,26 @@ const EventController = {
     } catch (error) {
       res.status(500).json({
         message: "Failed to fetch all events",
+        error: error.message,
+      });
+    }
+  },
+
+  getProviders: async (req, res) => {
+    try {
+      const eventKey = req.params.eventKey;
+
+      const users = await User.find({
+        events: { $in: [eventKey] },
+      });
+
+      return res.status(200).json({
+        message: "Providers fetched successfully",
+        providers: users,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to fetch providers",
         error: error.message,
       });
     }

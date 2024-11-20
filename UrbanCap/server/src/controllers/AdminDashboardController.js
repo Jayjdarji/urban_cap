@@ -7,28 +7,45 @@ import { Event } from "../models/Event.js";
 const AdminDashboardController = {
   getDashboard: async (req, res) => {
     try {
+
+      const extraPayload = {};
+      let payload = {};
+
+      if (req.user.userType === "SERVICE_PROVIDER") {
+        extraPayload.providers = { $in: [req.user._id] };
+        payload = { providerId: req.user._id };
+      }
+
       const totalUsers = await User.countDocuments();
-      const servicesBooked = await ServiceDetails.countDocuments().where();
-      const eventsBooked = await EventDetails.countDocuments().where({});
+      const servicesBooked = await ServiceDetails.countDocuments().where({
+        ...payload,
+      });
+      const eventsBooked = await EventDetails.countDocuments().where({
+        ...payload,
+      });
 
       const furnitureAssemblies = await ServiceDetails.countDocuments().where({
         serviceKey: "furnitureAssembly",
+        ...payload,
       });
 
       const miniGolfCount = await EventDetails.countDocuments().where({
         eventType: "miniGolfRoundRobin",
+        ...payload,
       });
 
       const videoGamesCount = await EventDetails.countDocuments().where({
         eventType: "videoGamesRoundRobin",
+        ...payload,
       });
 
       const rockClimbingCount = await EventDetails.countDocuments().where({
         eventType: "indoorRockClimbing",
+        ...payload,
       });
 
       res.status(200).json({
-        users: totalUsers,
+        users: req.user.userType === "SERVICE_PROVIDER" ? null : totalUsers,
         servicesBooked: servicesBooked,
         events: eventsBooked,
         furnitureAssembly: furnitureAssemblies,
@@ -90,7 +107,15 @@ const AdminDashboardController = {
 
   getAllServices: async (req, res) => {
     try {
-      const services = await Services.find();
+
+      const extraPayload = {};
+
+      if (req.user.userType === "SERVICE_PROVIDER") {
+        extraPayload.providers = { $in: [req.user._id] };
+      }
+
+      const services = await Services.find({ ...extraPayload });
+      
       if (!services) {
         res.status(404).json({
           message: "Services not found",
@@ -111,9 +136,17 @@ const AdminDashboardController = {
 
   getAllEventsByKey: async (req, res) => {
     try {
+
+      const extraPayload = {};
+
+      if (req.user.userType === "SERVICE_PROVIDER") {
+        extraPayload.providerId = req.user._id;
+      }
+
       const eventKey = req.params.eventKey;
       const events = await EventDetails.find({
         eventType: eventKey,
+        ...extraPayload,
       }).populate({ path: "userId", select: "name email" });
 
       if (!events) {

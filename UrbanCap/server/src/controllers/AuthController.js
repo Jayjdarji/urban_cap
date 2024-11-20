@@ -7,7 +7,7 @@ import { sendEmailVerificationMail, sendMail } from "../utils/index.js";
 const adminUser = {
   email: "admin@user.com",
   password: "Test@123",
-  role: "admin",
+  role: "ADMIN",
 };
 
 const AuthController = {
@@ -16,7 +16,7 @@ const AuthController = {
       const { email, password } = request.body;
 
       // Check if user exists
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email, userType: "CUSTOMER" });
 
       if (!user) {
         return response
@@ -66,13 +66,24 @@ const AuthController = {
     try {
       const { email, password } = request.body;
 
-      if (email !== adminUser.email) {
+      const dbUser = await User.findOne({
+        email,
+        userType: "SERVICE_PROVIDER",
+      });
+      console.log("🔊🔊🔊🔊🔊🔊 ~ adminSignin ~ dbUser:", dbUser);
+
+      if (email !== adminUser.email && dbUser === null) {
         return response
           .status(404)
           .json({ message: "Invalid Credentials", success: 0 });
       }
 
-      const isPasswordMatch = password === adminUser.password;
+      let isPasswordMatch;
+      if (dbUser === null) {
+        isPasswordMatch = password === adminUser.password;
+      } else {
+        isPasswordMatch = bcrypt.compare(password, dbUser.password);
+      }
 
       if (!isPasswordMatch) {
         return response
@@ -82,7 +93,10 @@ const AuthController = {
 
       // Create JWT token
       const token = jwt.sign(
-        { email: adminUser.email, role: adminUser.role },
+        {
+          email: dbUser ? dbUser.email : adminUser.email,
+          role: dbUser ? dbUser.userType : adminUser.role,
+        },
         process.env.JWT_SECRET || "random",
         { expiresIn: "200h" }
       );
@@ -91,6 +105,7 @@ const AuthController = {
         message: "Admin signin successful",
         success: 1,
         token,
+        user: dbUser || adminUser,
       });
     } catch (error) {
       console.log({ error });

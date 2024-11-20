@@ -5,6 +5,9 @@ import Return from "./Return";
 const ServiceEventHeader = ({ label, onToggle, loading, active }) => {
   const [isEnabled, setIsEnabled] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = user?.role === "ADMIN";
+
   useEffect(() => {
     setIsEnabled(active);
   }, [active]);
@@ -37,9 +40,11 @@ const ServiceEventHeader = ({ label, onToggle, loading, active }) => {
       {loading && (
         <Skeleton variant="text" width={100} height={38} animation="wave" />
       )}
-      {!loading && (
+      {isAdmin && !loading && (
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography variant="subtitle1">{isEnabled ? 'Enabled' : 'Disabled'} on the Client Side</Typography>
+          <Typography variant="subtitle1">
+            {isEnabled ? "Enabled" : "Disabled"} on the Client Side
+          </Typography>
           <Switch
             checked={isEnabled}
             onChange={handleToggle}
@@ -48,7 +53,7 @@ const ServiceEventHeader = ({ label, onToggle, loading, active }) => {
           />
         </Box>
       )}
-      {loading && (
+      {isAdmin && loading && (
         <Skeleton variant="text" width={100} height={38} animation="wave" />
       )}
     </Box>

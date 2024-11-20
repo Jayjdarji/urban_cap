@@ -27,15 +27,17 @@ const Services = ({ services, loading }) => {
 
   return (
     <Grid item container spacing={3} px={10} mt={1} alignItems={"flex-start"}>
-      <Grid item xs={12}>
-        <Typography
-          fontSize={"2rem"}
-          fontWeight={"bold"}
-          sx={{ letterSpacing: 2.5 }}
-        >
-          Services
-        </Typography>
-      </Grid>
+      {allServices.length > 0 && (
+        <Grid item xs={12}>
+          <Typography
+            fontSize={"2rem"}
+            fontWeight={"bold"}
+            sx={{ letterSpacing: 2.5 }}
+          >
+            Services
+          </Typography>
+        </Grid>
+      )}
       {allServices.map((service) => (
         <Grid item key={service.serviceName} xs={12} sm={12} md={6} lg={4}>
           <CategoryCard

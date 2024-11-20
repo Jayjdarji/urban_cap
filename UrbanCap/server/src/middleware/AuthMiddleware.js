@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { User } from "../models/Users.js";
 export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
@@ -20,7 +21,7 @@ export const authMiddleware = async (req, res, next) => {
   }
 };
 
-export const adminAuthMiddleware = (request, response, next) => {
+export const adminAuthMiddleware = async (request, response, next) => {
   try {
     const token = request.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -32,14 +33,24 @@ export const adminAuthMiddleware = (request, response, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "random");
 
-    if (decoded.role !== "admin") {
+    if (decoded.role !== "ADMIN" && decoded.role !== "SERVICE_PROVIDER") {
       return response.status(403).json({
         message: "Access denied. Admins only.",
         success: 0,
       });
     }
 
-    request.user = decoded;
+    if (decoded.role === "SERVICE_PROVIDER") {
+      const user = await User.findOne({ email: decoded.email });
+      if (!user) {
+        return response.status(404).json({
+          message: "User not found.",
+          success: 0,
+        });
+      }
+      request.user = user;
+    } else request.user = decoded;
+
     next();
   } catch (error) {
     console.log(error);
