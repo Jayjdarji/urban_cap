@@ -33,6 +33,11 @@ const eventDetails = new mongoose.Schema(
       ref: "User",
       default: null,
     },
+    active: {
+      type: Boolean,
+      allowNull: true,
+      default: null,
+    },
   },
   { timestamps: true }
 );

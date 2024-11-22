@@ -3,11 +3,14 @@ import { ServiceDetails } from "../models/Service.js";
 import { User } from "../models/Users.js";
 import { Services } from "../models/Services.js";
 import { Event } from "../models/Event.js";
+import {
+  sendBookingAcceptedMail,
+  sendBookingRejectedMail,
+} from "../utils/index.js";
 
 const AdminDashboardController = {
   getDashboard: async (req, res) => {
     try {
-
       const extraPayload = {};
       let payload = {};
 
@@ -107,7 +110,6 @@ const AdminDashboardController = {
 
   getAllServices: async (req, res) => {
     try {
-
       const extraPayload = {};
 
       if (req.user.userType === "SERVICE_PROVIDER") {
@@ -115,7 +117,7 @@ const AdminDashboardController = {
       }
 
       const services = await Services.find({ ...extraPayload });
-      
+
       if (!services) {
         res.status(404).json({
           message: "Services not found",
@@ -136,7 +138,6 @@ const AdminDashboardController = {
 
   getAllEventsByKey: async (req, res) => {
     try {
-
       const extraPayload = {};
 
       if (req.user.userType === "SERVICE_PROVIDER") {
@@ -224,6 +225,63 @@ const AdminDashboardController = {
     } catch (error) {
       res.status(500).json({
         message: "Failed to toggle service",
+        error: error.message,
+      });
+    }
+  },
+
+  acceptEvent: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const eventDetails = await EventDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+
+      if (eventDetails) {
+        eventDetails.active = true;
+        sendBookingAcceptedMail(eventDetails.userId.email, id);
+        await eventDetails.save();
+        return res.status(200).json({
+          message: "Event booking accepted successfully",
+          event: eventDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Event booking not found",
+        error: error.message,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to accept Event Booking",
+        error: error.message,
+      });
+    }
+  },
+
+  rejectEvent: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const eventDetails = await EventDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+      if (eventDetails) {
+        eventDetails.active = false;
+        sendBookingRejectedMail(eventDetails.userId.email, id);
+        await eventDetails.save();
+        return res.status(200).json({
+          message: "Event booking rejected successfully",
+          eventDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Event booking not found",
+        error: error.message,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to reject Event Booking",
         error: error.message,
       });
     }

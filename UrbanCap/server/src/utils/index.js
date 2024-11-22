@@ -36,3 +36,38 @@ export const sendEmailVerificationMail = (receiver, data) => {
     console.log(error);
   }
 };
+
+export const sendBookingAcceptedMail = (receiver, data) => {
+  try {
+    const emailTemplate = fs.readFileSync("src/utils/Accepted.html", "utf-8");
+
+    const mailOptions = {
+      from: process.env.NODE_MAILER_USER,
+      to: receiver,
+      subject: "Booking Accepted",
+      html: emailTemplate,
+    };
+
+    sendMail(mailOptions);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sendBookingRejectedMail = (receiver, data) => {
+  try {
+    const emailTemplate = fs.readFileSync("src/utils/Rejected.html", "utf-8");
+
+    const mailOptions = {
+      from: process.env.NODE_MAILER_USER,
+      to: receiver,
+      subject: "Booking Rejected",
+      html: emailTemplate,
+    };
+
+    sendMail(mailOptions);
+  } catch (error) {
+    console.log(error);
+  }
+};
+

@@ -25,7 +25,7 @@ const services = new mongoose.Schema({
     default: true,
   },
   providers: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Array,
     ref: "User",
     default: [],
   },

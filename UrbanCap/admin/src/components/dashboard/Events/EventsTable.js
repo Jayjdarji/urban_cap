@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import React from "react";
+import CommonButton from "../../form-fields/CommonButton";
+import axios from "axios";
 
-const OrdersTable = ({ orders }) => {
+const OrdersTable = ({ orders, refetch }) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleOpen = (str) => {
     setExpanded(str || "No Additional Details");
@@ -23,6 +25,24 @@ const OrdersTable = ({ orders }) => {
 
   const handleClose = () => {
     setExpanded(false);
+  };
+
+  const handleAccept = async (id) => {
+    try {
+      await axios.post(`/admin/event/accept`, { id });
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      await axios.post(`/admin/event/reject`, { id });
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -35,6 +55,9 @@ const OrdersTable = ({ orders }) => {
               <TableCell>Number of persons</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Additional Information</TableCell>
+              <TableCell colSpan={2} sx={{ textAlign: "center" }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -57,6 +80,86 @@ const OrdersTable = ({ orders }) => {
                       />
                     </IconButton>
                   </TableCell>
+                  {row.active === null && (
+                    <TableCell
+                      sx={{
+                        textAlign: "center",
+                        display: "flex",
+                        gap: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CommonButton
+                        color="green"
+                        sx={{
+                          borderColor: "green",
+                          "&:hover": {
+                            boxShadow: "0px 0px 5px green",
+                            border: "none",
+                          },
+                        }}
+                        onClick={() => handleAccept(row._id)}
+                        label={"Accept"}
+                        width="max-content"
+                      />
+                      <CommonButton
+                        color="red"
+                        sx={{
+                          borderColor: "red",
+                          "&:hover": {
+                            boxShadow: "0px 0px 5px red",
+                            border: "none",
+                          },
+                        }}
+                        onClick={() => handleReject(row._id)}
+                        label={"Reject"}
+                        width="max-content"
+                      />
+                    </TableCell>
+                  )}
+                  {row.active && (
+                    <TableCell
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CommonButton
+                        color="green"
+                        sx={{
+                          borderColor: "green",
+                          "&:hover": {
+                            boxShadow: "none",
+                          },
+                        }}
+                        label={"Accepted"}
+                        width="max-content"
+                      />
+                    </TableCell>
+                  )}
+                  {row.active === false && (
+                    <TableCell
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CommonButton
+                        color="red"
+                        sx={{
+                          borderColor: "red",
+                          "&:hover": {
+                            boxShadow: "none",
+                          },
+                        }}
+                        label={"Rejected"}
+                        width="max-content"
+                      />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>

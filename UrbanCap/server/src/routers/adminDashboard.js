@@ -19,4 +19,7 @@ router.get(
   AdminDashboardController.toggleService
 );
 
+router.post("/event/accept", AdminDashboardController.acceptEvent);
+router.post("/event/reject", AdminDashboardController.rejectEvent);
+
 export { router as adminDashboardRouter };

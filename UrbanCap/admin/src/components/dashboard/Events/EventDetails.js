@@ -58,7 +58,7 @@ const EventDetails = () => {
           onToggle={handleToggle}
           loading={loading}
         />
-        <EventsTable orders={orders} />
+        <EventsTable orders={orders} refetch={fetchServiceDetails} />
       </Grid>
     </Grid>
   );
