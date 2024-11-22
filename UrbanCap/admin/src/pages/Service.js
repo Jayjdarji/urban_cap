@@ -58,7 +58,7 @@ const Service = () => {
           onToggle={handleToggle}
           loading={loading}
         />
-        <OrdersTable orders={orders} />
+        <OrdersTable orders={orders} refetch={fetchServiceDetails} />
       </Grid>
     </Grid>
   );

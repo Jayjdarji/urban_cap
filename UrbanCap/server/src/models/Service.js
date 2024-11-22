@@ -55,6 +55,15 @@ const service = new mongoose.Schema(
         required: [true, "Order total is required"],
       },
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    active: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -239,7 +239,7 @@ const AdminDashboardController = {
       });
 
       if (eventDetails) {
-        eventDetails.active = true;
+        eventDetails.active = "Accepted";
         sendBookingAcceptedMail(eventDetails.userId.email, id);
         await eventDetails.save();
         return res.status(200).json({
@@ -267,7 +267,7 @@ const AdminDashboardController = {
         ref: "User",
       });
       if (eventDetails) {
-        eventDetails.active = false;
+        eventDetails.active = "Rejected";
         sendBookingRejectedMail(eventDetails.userId.email, id);
         await eventDetails.save();
         return res.status(200).json({
@@ -282,6 +282,63 @@ const AdminDashboardController = {
     } catch (error) {
       return res.status(500).json({
         message: "Failed to reject Event Booking",
+        error: error.message,
+      });
+    }
+  },
+
+  acceptService: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const serviceDetails = await ServiceDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+
+      if (serviceDetails) {
+        serviceDetails.active = "Accepted";
+        sendBookingAcceptedMail(serviceDetails.userId.email, id);
+        await serviceDetails.save();
+        return res.status(200).json({
+          message: "Service booking accepted successfully",
+          service: serviceDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Service booking not found",
+        error: error.message,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to accept Service Booking",
+        error: error.message,
+      });
+    }
+  },
+
+  rejectService: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const serviceDetails = await ServiceDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+      if (serviceDetails) {
+        serviceDetails.active = "Rejected";
+        sendBookingRejectedMail(serviceDetails.userId.email, id);
+        await serviceDetails.save();
+        return res.status(200).json({
+          message: "Service booking rejected successfully",
+          serviceDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Service booking not found",
+        error: error.message,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to reject Service Booking",
         error: error.message,
       });
     }

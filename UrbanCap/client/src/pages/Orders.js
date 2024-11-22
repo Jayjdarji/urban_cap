@@ -19,23 +19,25 @@ const Orders = () => {
     }, 1000);
   };
 
-  const handleClose = () => {
+  const handleClose = (refetch = false) => {
     setEventData(null);
     setOpen(false);
+    if (refetch) fetchOrders();
   };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get("/services/all/bookings");
-        setOrders(response.data.bookings);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchOrders();
   }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get("/services/all/bookings");
+      setOrders(response.data.bookings);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <PrivateLayout>
       <Grid container spacing={3} px={10} mt={1}>
@@ -65,7 +67,7 @@ const Orders = () => {
                 type={
                   order.serviceId
                     ? "Furniture Assembly"
-                    : EVENTS_OBJ[order.eventId.eventType].label
+                    : EVENTS_OBJ[order?.eventId?.eventType]?.label
                 }
                 bookedAt={order.startDate}
                 onMoreDetails={() =>

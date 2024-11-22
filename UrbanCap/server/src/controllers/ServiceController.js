@@ -50,6 +50,7 @@ const ServiceController = {
         service: savedService,
       });
     } catch (error) {
+      console.log("🔊🔊🔊🔊🔊🔊 ~ createService: ~ error:", error);
       res.status(400).json({
         message: "Failed to book service",
         error: error.message,
@@ -87,6 +88,34 @@ const ServiceController = {
       console.log("🔊🔊🔊🔊🔊🔊 ~ getAllBookingsByUserId: ~ error:", error);
       res.status(500).json({
         message: "Failed to fetch all bookings",
+        error: error.message,
+      });
+    }
+  },
+
+  cancelService: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const serviceDetails = await ServiceDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+
+      if (serviceDetails) {
+        serviceDetails.active = "Cancelled";
+        await serviceDetails.save();
+        return res.status(200).json({
+          message: "Service booking cancelled successfully",
+          serviceDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Service booking not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to cancel Service Booking",
         error: error.message,
       });
     }

@@ -6,5 +6,6 @@ const router = express.Router();
 router.post("/", authMiddleware, EventController.createEvent);
 router.get("/all", EventController.getAllEvents);
 router.get("/providers/:eventKey", EventController.getProviders);
+router.post("/cancel", authMiddleware, EventController.cancelEvent);
 
 export { router as eventsRouter };

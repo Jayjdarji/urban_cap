@@ -2,6 +2,7 @@ import { EventDetails } from "../models/EventDetails.js";
 import { Event } from "../models/Event.js";
 import { PastBooking } from "../models/PastBooking.js";
 import { User } from "../models/Users.js";
+import { stat } from "fs";
 
 const EventController = {
   createEvent: async (req, res) => {
@@ -89,6 +90,34 @@ const EventController = {
     } catch (error) {
       res.status(500).json({
         message: "Failed to fetch providers",
+        error: error.message,
+      });
+    }
+  },
+
+  cancelEvent: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const eventDetails = await EventDetails.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+
+      if (eventDetails) {
+        eventDetails.active = "Cancelled";
+        await eventDetails.save();
+        return res.status(200).json({
+          message: "Event booking cancelled successfully",
+          eventDetails,
+        });
+      }
+      return res.status(400).json({
+        message: "Event booking not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to cancel Event Booking",
         error: error.message,
       });
     }

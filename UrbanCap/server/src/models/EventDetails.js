@@ -34,8 +34,7 @@ const eventDetails = new mongoose.Schema(
       default: null,
     },
     active: {
-      type: Boolean,
-      allowNull: true,
+      type: String,
       default: null,
     },
   },

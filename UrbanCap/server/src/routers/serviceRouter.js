@@ -10,5 +10,6 @@ router.get(
   authMiddleware,
   ServiceController.getAllBookingsByUserId
 );
+router.post("/cancel", authMiddleware, ServiceController.cancelService);
 
 export { router as serviceRouter };

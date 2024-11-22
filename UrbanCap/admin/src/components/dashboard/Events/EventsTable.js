@@ -118,7 +118,7 @@ const OrdersTable = ({ orders, refetch }) => {
                       />
                     </TableCell>
                   )}
-                  {row.active && (
+                  {row.active === "Accepted" && (
                     <TableCell
                       sx={{
                         display: "flex",
@@ -134,12 +134,13 @@ const OrdersTable = ({ orders, refetch }) => {
                             boxShadow: "none",
                           },
                         }}
-                        label={"Accepted"}
+                        label={row.active}
                         width="max-content"
                       />
                     </TableCell>
                   )}
-                  {row.active === false && (
+                  {(row.active === "Rejected" ||
+                    row.active === "Cancelled") && (
                     <TableCell
                       sx={{
                         display: "flex",
@@ -155,7 +156,7 @@ const OrdersTable = ({ orders, refetch }) => {
                             boxShadow: "none",
                           },
                         }}
-                        label={"Rejected"}
+                        label={row.active}
                         width="max-content"
                       />
                     </TableCell>
