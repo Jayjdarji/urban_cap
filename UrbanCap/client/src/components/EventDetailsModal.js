@@ -79,14 +79,14 @@ const EventDetailsModal = ({ open, onClose, eventData }) => {
         )}
         {eventData.active === "Accepted" && (
           <CommonButton
-            color="red"
+            color="green"
             sx={{
-              borderColor: "red",
+              borderColor: "green",
               "&:hover": {
                 boxShadow: "none",
               },
             }}
-            label={"Cancel"}
+            label={"Accepted"}
           />
         )}
         {eventData.active === "Rejected" && (
