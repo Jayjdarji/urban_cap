@@ -5,11 +5,6 @@ const router = express.Router();
 
 router.post("/", authMiddleware, ServiceController.createService);
 router.get("/all", ServiceController.getAllServices);
-router.get(
-  "/all/bookings",
-  authMiddleware,
-  ServiceController.getAllBookingsByUserId
-);
 router.post("/cancel", authMiddleware, ServiceController.cancelService);
 
 export { router as serviceRouter };

@@ -9,11 +9,13 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { SERVICES_IMAGE } from "../../utils/data";
 
 const Services = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [services, setServices] = useState([]);
+  console.log("🔊🔊🔊🔊🔊🔊 ~ Services ~ services:", services);
 
   const fetchServices = async () => {
     const response = await axios.get("/services/all");
@@ -72,7 +74,7 @@ const Services = () => {
             <CardMedia
               component="img"
               height="180"
-              image={category.image}
+              image={SERVICES_IMAGE[category.serviceName]}
               alt={category.label}
               style={{ objectFit: "cover" }}
             />

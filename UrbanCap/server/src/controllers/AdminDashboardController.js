@@ -1,5 +1,5 @@
 import { EventDetails } from "../models/EventDetails.js";
-import { ServiceDetails } from "../models/Service.js";
+import { ServiceDetails } from "../models/ServiceDetails.js";
 import { User } from "../models/Users.js";
 import { Services } from "../models/Services.js";
 import { Event } from "../models/Event.js";

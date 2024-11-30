@@ -100,40 +100,46 @@ const AboutUs = () => {
             </Typography>
             <Typography variant="body2">Countries</Typography>
           </Grid>
+          {/* How We Do It Section */}
+          <Grid item xs={12} sx={{ my: 6 }}>
+            <Typography
+              variant="h4"
+              fontWeight={700}
+              textAlign="center"
+              gutterBottom
+            >
+              How We do it
+            </Typography>
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              sx={{ margin: "0 auto" }}
+            >
+              Urban Cap provides a platform that allows skilled and experienced
+              professionals to connect with users looking for specific services.
+              Our match-making algorithm identifies professionals who are
+              closest to the users' requirements and available at the requested
+              time and date.
+            </Typography>
+          </Grid>
+
+          {/* Leadership Team Section */}
+          <Grid item container xs={12} sx={{ mb: 10, mt: 5 }}>
+            <Grid item xs={12} display={"flex"} justifyContent={"center"}>
+              <Typography
+                variant="h4"
+                fontWeight={700}
+                textAlign="center"
+                gutterBottom
+              >
+                Our Leadership Team
+              </Typography>
+            </Grid>
+            <Grid item container xs={12} spacing={2} sx={{ mt: 5 }}>
+              <TeamMembers teamMembers={teamMembers} />
+            </Grid>
+          </Grid>
         </Grid>
-
-        {/* How We Do It Section */}
-        <Box sx={{ my: 6 }}>
-          <Typography
-            variant="h4"
-            fontWeight={700}
-            textAlign="center"
-            gutterBottom
-          >
-            How We do it
-          </Typography>
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            sx={{ margin: "0 auto" }}
-          >
-            Urban Cap provides a platform that allows skilled and experienced
-            professionals to connect with users looking for specific services.
-            Our match-making algorithm identifies professionals who are closest
-            to the users' requirements and available at the requested time and
-            date.
-          </Typography>
-        </Box>
-
-        {/* Leadership Team Section */}
-        <Box textAlign="center" sx={{ my: 10 }}>
-          <Typography variant="h4" fontWeight={700} gutterBottom>
-            Our Leadership Team
-          </Typography>
-          <Box sx={{ mt: 5 }}>
-            <TeamMembers teamMembers={teamMembers} />
-          </Box>
-        </Box>
       </Container>
     </PrivateLayout>
   );

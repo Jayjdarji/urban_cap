@@ -9,7 +9,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
   const [eventData, setEventData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const handleOpen = (eventData) => {
     setLoading(true);
     setEventData(eventData);

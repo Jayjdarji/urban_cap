@@ -120,8 +120,6 @@ const AuthController = {
     try {
       const user = request.body;
 
-      // check if user already exist
-
       const isUserExist = await User.findOne({
         email: user.email,
       });

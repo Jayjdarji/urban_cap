@@ -1,12 +1,12 @@
-import { Add, Remove } from "@mui/icons-material";
-import { Box, CardContent, Grid, IconButton, Typography } from "@mui/material";
+// import { Add, Remove } from "@mui/icons-material";
+import { Box, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useModal } from "../../Context";
-import { CITIES, CURRENCY_VALUE, PRODUCTS, PROVINCES } from "../../utils/data";
-import { PriceTypography, ProductCard } from "../Styled";
+import { CITIES, CURRENCY_VALUE, PROVINCES } from "../../utils/data";
+// import { PriceTypography, ProductCard } from "../Styled";
 import DateSection from "./DataTime";
 import Location from "./Location";
 import SummaryBoxSection from "./SummaryBox";
@@ -30,7 +30,7 @@ const validate = (values) => {
   return errors;
 };
 
-function FurnitureAssemblyForm() {
+function HomeCleaning() {
   const [date, setDate] = useState("");
   const isLoggedIn = localStorage.getItem("token");
   const { openLogin, currency } = useModal();
@@ -156,7 +156,7 @@ function FurnitureAssemblyForm() {
             </Typography>
           </Grid>
           <Grid item xs={12} container spacing={2}>
-            {PRODUCTS.map((item) => (
+            {/* {PRODUCTS.map((item) => (
               <Grid item xs={12} sm={6} key={item.key}>
                 <ProductCard>
                   <CardContent>
@@ -193,7 +193,7 @@ function FurnitureAssemblyForm() {
                   </CardContent>
                 </ProductCard>
               </Grid>
-            ))}
+            ))} */}
           </Grid>
         </Grid>
         <Grid item xl={6} xs={12}>
@@ -210,4 +210,4 @@ function FurnitureAssemblyForm() {
   );
 }
 
-export default FurnitureAssemblyForm;
+export default HomeCleaning;

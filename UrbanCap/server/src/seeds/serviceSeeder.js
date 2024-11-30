@@ -10,6 +10,11 @@ const services = [
     label: "Furniture Assembly",
     active: true,
   },
+  {
+    serviceName: "homeCleaning",
+    label: "Home Cleaning",
+    active: true,
+  },
 ];
 
 const seedServices = async () => {
