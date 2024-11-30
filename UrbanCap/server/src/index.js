@@ -15,6 +15,7 @@ import httpServer from "http";
 import configureSocket from "./config/socket.js";
 import { User } from "./models/Users.js";
 import jwt from "jsonwebtoken";
+import { commonRouter } from "./routers/commonRouter.js";
 
 configDotenv();
 
@@ -22,7 +23,11 @@ const app = express();
 const server = httpServer.createServer(app);
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(cookieParser());
 
 const io = configureSocket(server);
@@ -101,5 +106,5 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/services", serviceRouter);
 app.use("/api/events", eventsRouter);
-
+app.use("/api/common", commonRouter);
 app.use("/api/admin", adminAuthMiddleware, adminDashboardRouter);
