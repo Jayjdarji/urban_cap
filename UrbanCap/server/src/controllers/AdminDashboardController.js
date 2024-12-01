@@ -372,6 +372,26 @@ const AdminDashboardController = {
       });
     }
   },
+
+  addUpdateEvents: async (req, res) => {
+    try {
+      const { events = [] } = req.body;
+      const user = await User.findOne({ _id: req.user.id });
+
+      await user.updateOne({ events });
+      await user.save();
+
+      return res.status(200).json({
+        message: "Event updated successfully",
+        events,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to update Event",
+        error: error.message,
+      });
+    }
+  },
 };
 
 export default AdminDashboardController;

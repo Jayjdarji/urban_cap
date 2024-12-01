@@ -1,6 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Divider, Drawer, Typography } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 300;
@@ -11,7 +11,13 @@ const SidebarContents = [
     children: [
       {
         label: "Furniture Assembly",
+        key: "furnitureAssembly",
         link: "/service?serviceKey=furnitureAssembly",
+      },
+      {
+        label: "Home Cleaning",
+        key: "homeCleaning",
+        link: "/service?serviceKey=homeCleaning",
       },
     ],
   },
@@ -20,22 +26,40 @@ const SidebarContents = [
     children: [
       {
         label: "Mini Golf Round Robin",
+        key: "miniGolfRoundRobin",
         link: "/event-planning?eventKey=miniGolfRoundRobin",
       },
       {
         label: "Video Games Round Robin",
+        key: "videoGamesRoundRobin",
         link: "/event-planning?eventKey=videoGamesRoundRobin",
       },
       {
         label: "Indoor Rock Climbing",
+        key: "indoorRockClimbing",
         link: "/event-planning?eventKey=indoorRockClimbing",
       },
     ],
   },
 ];
 
-const Sidebar = ({ open, setOpen }) => {
+const Sidebar = ({ open, setOpen, user }) => {
   const navigate = useNavigate();
+
+  const showItems = useMemo(() => {
+    if (user.role === "ADMIN") {
+      return [
+        "furnitureAssembly",
+        "homeCleaning",
+        "miniGolfRoundRobin",
+        "videoGamesRoundRobin",
+        "indoorRockClimbing",
+        "teamBuilding",
+      ];
+    } else {
+      return user?.events;
+    }
+  }, [user]);
 
   const handleNavigate = (link) => () => {
     navigate(link);
@@ -79,7 +103,9 @@ const Sidebar = ({ open, setOpen }) => {
             flexDirection: "column",
           }}
         >
-          {SidebarContents.map((category) => (
+          {SidebarContents.filter(
+            (item) => user.role === "ADMIN" || item.label === "Events"
+          ).map((category) => (
             <Box key={category.label} sx={{ mt: 2 }}>
               <Typography fontWeight={"bold"} variant="h6">
                 {category.label}
@@ -90,7 +116,7 @@ const Sidebar = ({ open, setOpen }) => {
                     sx={{
                       fontSize: "1rem",
                       my: 1,
-                      display: "flex",
+                      display: showItems.includes(child.key) ? "flex" : "none",
                       alignItems: "center",
                       gap: 0.5,
                       pb: 0.2,

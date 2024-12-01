@@ -17,6 +17,7 @@ const Input = ({
   options = [],
   labelColor = "#8c8c8c",
   borderColor = "#D8D2C2",
+  multiple = false,
 }) => {
   const { values, errors, touched, handleChange, handleBlur } = formik;
   const isError = useMemo(
@@ -72,6 +73,7 @@ const Input = ({
           fullWidth
           SelectProps={{
             MenuProps: { disablePortal: true },
+            multiple,
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
