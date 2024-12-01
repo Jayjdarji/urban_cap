@@ -26,7 +26,10 @@ router.post("/service/reject", AdminDashboardController.rejectService);
 router.get("/users/:type", AdminDashboardController.getUsersByType);
 
 // Providers
-
-// Edit Events
 router.post("/provider/addUpdate", AdminDashboardController.addUpdateEvents);
+
+//Users
+router.post("/user/delete", AdminDashboardController.deleteUser);
+router.post("/user/suspend", AdminDashboardController.suspendUser);
+
 export { router as adminDashboardRouter };

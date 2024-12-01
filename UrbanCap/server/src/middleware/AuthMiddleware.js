@@ -12,7 +12,17 @@ export const authMiddleware = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "random");
 
-    req.user = decoded;
+    const user = await User.findOne({
+      _id: decoded.id,
+      isDeleted: false,
+      isSuspended: false,
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found.", success: 0 });
+    }
+
+    req.user = user;
 
     next();
   } catch (error) {
@@ -41,7 +51,11 @@ export const adminAuthMiddleware = async (request, response, next) => {
     }
 
     if (decoded.role === "SERVICE_PROVIDER") {
-      const user = await User.findOne({ email: decoded.email });
+      const user = await User.findOne({
+        email: decoded.email,
+        isDeleted: false,
+        isSuspended: false,
+      });
       if (!user) {
         return response.status(404).json({
           message: "User not found.",

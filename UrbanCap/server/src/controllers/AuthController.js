@@ -16,7 +16,12 @@ const AuthController = {
       const { email, password } = request.body;
 
       // Check if user exists
-      const user = await User.findOne({ email, userType: "CUSTOMER" });
+      const user = await User.findOne({
+        email,
+        userType: "CUSTOMER",
+        isDeleted: false,
+        isSuspended: false,
+      });
 
       if (!user) {
         return response
@@ -69,7 +74,15 @@ const AuthController = {
       const dbUser = await User.findOne({
         email,
         userType: "SERVICE_PROVIDER",
+        isDeleted: false,
+        isSuspended: false,
       });
+
+      if (!dbUser) {
+        return response
+          .status(404)
+          .json({ message: "User not found", success: 0 });
+      }
 
       if (email !== adminUser.email && dbUser === null) {
         return response
@@ -183,7 +196,11 @@ const AuthController = {
           .json({ message: "Verification link is expired", success: 0 });
       }
 
-      const user = await User.findOne({ email: encryptedToken.email });
+      const user = await User.findOne({
+        email: encryptedToken.email,
+        isDeleted: false,
+        isSuspended: false,
+      });
 
       if (_.isEmpty(user)) {
         return response
@@ -219,6 +236,8 @@ const AuthController = {
 
       const isUserExist = await User.findOne({
         email,
+        isDeleted: false,
+        isSuspended: false,
       });
 
       if (_.isEmpty(isUserExist)) {
@@ -254,7 +273,11 @@ const AuthController = {
     try {
       const { email } = request.body;
 
-      const user = await User.findOne({ email });
+      const user = await User.findOne({
+        email,
+        isDeleted: false,
+        isSuspended: false,
+      });
       if (_.isEmpty(user)) {
         return response
           .status(404)
@@ -304,7 +327,11 @@ const AuthController = {
           .json({ message: "Reset link is expired or invalid", success: 0 });
       }
 
-      const user = await User.findOne({ email: decodedToken.email });
+      const user = await User.findOne({
+        email: decodedToken.email,
+        isDeleted: false,
+        isSuspended: false,
+      });
       if (_.isEmpty(user)) {
         return response
           .status(404)

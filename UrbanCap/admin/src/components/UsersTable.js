@@ -43,21 +43,21 @@ const UsersTable = ({ type }) => {
   }, [fetchUsers]);
 
   const handleSuspend = async (id) => {
-    // try {
-    //   await axios.post(`/admin/service/accept`, { id });
-    //   fetchUsers();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await axios.post(`/admin/user/suspend`, { id });
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async (id) => {
-    // try {
-    //   await axios.post(`/admin/service/reject`, { id });
-    //   fetchUsers();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await axios.post(`/admin/user/delete`, { id });
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Box sx={{ mt: 3 }}>
@@ -134,85 +134,42 @@ const UsersTable = ({ type }) => {
                 <StyledTableCell>
                   {moment(row.createdAt).format("MMM DD, YYYY")}
                 </StyledTableCell>
-                {!row.active && (
-                  <TableCell
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
+                {!row.isDeleted && (
+                  <StyledTableCell>
                     <CommonButton
-                      color="red"
+                      color={row.isSuspended ? "green" : "red"}
                       sx={{
-                        borderColor: "red",
+                        borderColor: row.isSuspended ? "green" : "red",
                         "&:hover": {
-                          boxShadow: "0px 0px 5px red",
+                          boxShadow: `0px 0px 5px ${
+                            row.isSuspended ? "green" : "red"
+                          }`,
                           border: "none",
                         },
+                        mx: "auto",
                       }}
                       onClick={() => handleSuspend(row._id)}
-                      label={"Suspend"}
+                      label={row.isSuspended ? "Reactivate" : "Suspend"}
                       width="max-content"
                     />
-                    <CommonButton
-                      color="red"
-                      sx={{
-                        borderColor: "red",
-                        "&:hover": {
-                          boxShadow: "0px 0px 5px red",
-                          border: "none",
-                        },
-                      }}
-                      onClick={() => handleDelete(row._id)}
-                      label={"Delete"}
-                      width="max-content"
-                    />
-                  </TableCell>
+                  </StyledTableCell>
                 )}
-                {row.active === "suspended" && (
-                  <TableCell
+                <StyledTableCell colSpan={row.isDeleted ? 2 : 1}>
+                  <CommonButton
+                    color="red"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      borderColor: "red",
+                      "&:hover": {
+                        boxShadow: "0px 0px 5px red",
+                        border: "none",
+                      },
+                      mx: "auto",
                     }}
-                  >
-                    <CommonButton
-                      color="red"
-                      sx={{
-                        borderColor: "red",
-                        "&:hover": {
-                          boxShadow: "none",
-                        },
-                      }}
-                      label={"Suspended"}
-                      width="max-content"
-                    />
-                  </TableCell>
-                )}
-                {row.active === "deleted" && (
-                  <TableCell
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <CommonButton
-                      color="red"
-                      sx={{
-                        borderColor: "red",
-                        "&:hover": {
-                          boxShadow: "none",
-                        },
-                      }}
-                      label={"Deleted"}
-                      width="max-content"
-                    />
-                  </TableCell>
-                )}
+                    onClick={() => !row.isDeleted && handleDelete(row._id)}
+                    label={row.isDeleted ? "Deleted" : "Delete"}
+                    width="max-content"
+                  />
+                </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

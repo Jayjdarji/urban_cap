@@ -42,6 +42,16 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: [],
     },
+    isDeleted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isSuspended: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,

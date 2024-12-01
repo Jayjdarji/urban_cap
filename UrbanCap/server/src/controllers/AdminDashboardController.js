@@ -392,6 +392,54 @@ const AdminDashboardController = {
       });
     }
   },
+
+  deleteUser: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const user = await User.findById(id);
+      if (user) {
+        user.isDeleted = true;
+        await user.save();
+        return res.status(200).json({
+          message: "User suspended successfully",
+          user,
+        });
+      }
+      return res.status(400).json({
+        message: "User not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to suspend User",
+        error: error.message,
+      });
+    }
+  },
+
+  suspendUser: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const user = await User.findById(id);
+      if (user) {
+        user.isSuspended = !user.isSuspended;
+        await user.save();
+        return res.status(200).json({
+          message: "User suspended successfully",
+          user,
+        });
+      }
+      return res.status(400).json({
+        message: "User not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to suspend User",
+        error: error.message,
+      });
+    }
+  },
 };
 
 export default AdminDashboardController;
