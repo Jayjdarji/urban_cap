@@ -224,6 +224,15 @@ export const timeOptions = [
   "8:00 PM",
 ];
 
+export const allServices = [
+  { value: "furnitureAssembly", label: "Furniture Assembly" },
+  { value: "homeCleaning", label: "Home Cleaning" },
+  { value: "miniGolfRoundRobin", label: "Mini Golf Round Robin" },
+  { value: "videoGamesRoundRobin", label: "Video Games Round Robin" },
+  { value: "indoorRockClimbing", label: "Indoor Rock Climbing" },
+  { value: "teamBuilding", label: "Team Building" },
+];
+
 
 
 //  Home Cleaning

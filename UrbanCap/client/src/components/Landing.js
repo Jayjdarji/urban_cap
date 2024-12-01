@@ -1,10 +1,33 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import EventPlanning from "./Event/EventPlanning";
 import ExtraServices from "./ExtraServices";
 import SafetySection from "./SafetySection";
 import Services from "./Service";
+import SelectField from "./form-fields/SelectField";
+import { useFormik } from "formik";
+import { allServices, EVENTS } from "../utils/data";
+import { useNavigate } from "react-router-dom";
 function Landing() {
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      service: "furnitureAssembly",
+    },
+    onSubmit: () => {},
+  });
+
+  const handleGetStarted = () => {
+    const isEvent = EVENTS.find(
+      (event) => event.value === formik.values.service
+    );
+    if (isEvent) {
+      navigate(`/event-planning?category=${formik.values.service}`);
+    } else {
+      navigate(`/service?category=${formik.values.service}`);
+    }
+    formik.resetForm();
+  };
   return (
     <Box>
       {/* Hero Section */}
@@ -26,40 +49,40 @@ function Landing() {
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={12} md={6}>
             <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-              CCTV Installation
+              Services and Events
             </Typography>
             <Typography variant="body1" sx={{ marginBottom: "20px" }}>
               Connect with top-rated pros near you. Compare quotes. Hire the pro
               that's right for your job.
             </Typography>
             <Grid item container xs={12} spacing={2}>
-              <Grid item lg={5} xs={12}>
-                <TextField
-                  fullWidth
-                  label="What service do you need?"
-                  variant="filled"
-                  sx={{
+              <Grid item lg={9} xs={12}>
+                <SelectField
+                  fieldName="service"
+                  formik={formik}
+                  width="100%"
+                  options={allServices}
+                  fieldStyle={{
                     background: "white",
                     borderRadius: "12px",
-                    overflow: "hidden",
-                  }}
-                />
-              </Grid>
-              <Grid item lg={4} xs={12}>
-                <TextField
-                  fullWidth
-                  label="Where?"
-                  variant="filled"
-                  sx={{
-                    background: "white",
-                    borderRadius: "12px",
-                    overflow: "hidden",
+                    overflow: "hidden !important",
+                    minHeight: "56px",
+                    borderColor: "white",
+                    "&:hover": {
+                      borderColor: "white",
+                      backgroundColor: "white",
+                    },
+                    "&.Mui-focused": {
+                      borderColor: "white",
+                      backgroundColor: "white",
+                    },
                   }}
                 />
               </Grid>
               <Grid item lg={3} xs={12}>
                 <Button
                   variant="contained"
+                  onClick={handleGetStarted}
                   fullWidth
                   sx={{
                     height: "100%",
