@@ -19,7 +19,12 @@ const AdminDashboardController = {
         payload = { providerId: req.user._id };
       }
 
-      const totalUsers = await User.countDocuments();
+      const totalUsers = await User.countDocuments().where({
+        userType: "CUSTOMER",
+      });
+      const totalProviders = await User.countDocuments().where({
+        userType: "SERVICE_PROVIDER",
+      });
       const servicesBooked = await ServiceDetails.countDocuments().where({
         ...payload,
       });
@@ -55,6 +60,8 @@ const AdminDashboardController = {
         miniGolfCount,
         videoGamesCount,
         rockClimbingCount,
+        providers:
+          req.user.userType === "SERVICE_PROVIDER" ? null : totalProviders,
       });
     } catch (error) {
       res.status(500).json({
@@ -339,6 +346,28 @@ const AdminDashboardController = {
     } catch (error) {
       return res.status(500).json({
         message: "Failed to reject Service Booking",
+        error: error.message,
+      });
+    }
+  },
+
+  getUsersByType: async (req, res) => {
+    try {
+      const { type } = req.params;
+      const users = await User.find({ userType: type });
+      if (!users) {
+        res.status(404).json({
+          message: "Users not found",
+        });
+      } else {
+        res.status(200).json({
+          message: "Users found",
+          users,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to fetch users",
         error: error.message,
       });
     }

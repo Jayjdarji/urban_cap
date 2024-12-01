@@ -18,6 +18,7 @@ export const Context = ({ children }) => {
   const [isEmailVerificationOpen, setIsEmailVerificationOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [isRequestQuoteOpen, setIsRequestQuoteOpen] = useState(false);
+  const [isExtraServiceModalOpen, setIsExtraServiceModalOpen] = useState(false);
 
   const openLogin = () => setIsLoginOpen(true);
   const openRegister = () => setIsRegisterOpen(true);
@@ -25,6 +26,7 @@ export const Context = ({ children }) => {
   const openContactUs = () => setIsContactUs(true);
   const openEmailVerification = () => setIsEmailVerificationOpen(true);
   const openRequestQuote = () => setIsRequestQuoteOpen(true);
+  const openExtraServiceModal = () => setIsExtraServiceModalOpen(true);
 
   const closeLogin = () => setIsLoginOpen(false);
   const closeRegister = () => setIsRegisterOpen(false);
@@ -32,6 +34,7 @@ export const Context = ({ children }) => {
   const closeContactUs = () => setIsContactUs(false);
   const closeEmailVerification = () => setIsEmailVerificationOpen(false);
   const closeRequestQuote = () => setIsRequestQuoteOpen(false);
+  const closeExtraServiceModal = () => setIsExtraServiceModalOpen(false);
 
   useEffect(() => {
     if (isLoginOpen) {
@@ -39,6 +42,8 @@ export const Context = ({ children }) => {
       closeResetPassword();
       closeContactUs();
       closeEmailVerification();
+      closeRequestQuote();
+      closeExtraServiceModal();
     }
   }, [isLoginOpen]);
 
@@ -48,6 +53,8 @@ export const Context = ({ children }) => {
       closeResetPassword();
       closeContactUs();
       closeEmailVerification();
+      closeRequestQuote();
+      closeExtraServiceModal();
     }
   }, [isRegisterOpen]);
 
@@ -57,6 +64,8 @@ export const Context = ({ children }) => {
       closeRegister();
       closeContactUs();
       closeEmailVerification();
+      closeRequestQuote();
+      closeExtraServiceModal();
     }
   }, [isResetPasswordOpen]);
 
@@ -66,6 +75,8 @@ export const Context = ({ children }) => {
       closeRegister();
       closeResetPassword();
       closeEmailVerification();
+      closeRequestQuote();
+      closeExtraServiceModal();
     }
   }, [isContactUs]);
 
@@ -75,8 +86,32 @@ export const Context = ({ children }) => {
       closeRegister();
       closeResetPassword();
       closeContactUs();
+      closeRequestQuote();
+      closeExtraServiceModal();
     }
   }, [isEmailVerificationOpen]);
+
+  useEffect(() => {
+    if (isRequestQuoteOpen) {
+      closeLogin();
+      closeRegister();
+      closeResetPassword();
+      closeContactUs();
+      closeEmailVerification();
+      closeExtraServiceModal();
+    }
+  }, [isRequestQuoteOpen]);
+
+  useEffect(() => {
+    if (isExtraServiceModalOpen) {
+      closeLogin();
+      closeRegister();
+      closeResetPassword();
+      closeContactUs();
+      closeEmailVerification();
+      closeRequestQuote();
+    }
+  }, [isExtraServiceModalOpen]);
 
   return (
     <ModalContext.Provider
@@ -101,6 +136,9 @@ export const Context = ({ children }) => {
         isRequestQuoteOpen,
         openRequestQuote,
         closeRequestQuote,
+        isExtraServiceModalOpen,
+        openExtraServiceModal,
+        closeExtraServiceModal,
       }}
     >
       {children}

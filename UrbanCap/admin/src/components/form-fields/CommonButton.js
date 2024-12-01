@@ -32,12 +32,12 @@ const CommonButton = ({
         border: "1px solid #343131",
         "&:hover": {
           boxShadow: loading ? "none" : `0 0 5px ${hoverColor}`,
-          border: "none",
+          border: loading ? "1px solid #343131" : "none",
         },
         transition: "box-shadow 0.3s ease-in-out, border 0.5s ease-in-out",
         px: 2,
         py: 0.5,
-        ...sx
+        ...sx,
       }}
     >
       {loading ? (

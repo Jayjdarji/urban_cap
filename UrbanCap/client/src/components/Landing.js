@@ -64,18 +64,19 @@ function Landing() {
                   options={allServices}
                   fieldStyle={{
                     background: "white",
-                    borderRadius: "12px",
-                    overflow: "hidden !important",
+                    border: "none",
                     minHeight: "56px",
-                    borderColor: "white",
                     "&:hover": {
-                      borderColor: "white",
+                      border: "none",
                       backgroundColor: "white",
                     },
                     "&.Mui-focused": {
-                      borderColor: "white",
+                      border: "none",
                       backgroundColor: "white",
                     },
+                  }}
+                  wrapperStyle={{
+                    border: "none",
                   }}
                 />
               </Grid>

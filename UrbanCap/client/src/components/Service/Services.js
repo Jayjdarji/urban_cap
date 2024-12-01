@@ -15,7 +15,6 @@ const Services = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [services, setServices] = useState([]);
-  console.log("🔊🔊🔊🔊🔊🔊 ~ Services ~ services:", services);
 
   const fetchServices = async () => {
     const response = await axios.get("/services/all");

@@ -10,8 +10,10 @@ const SelectField = ({
   options = [],
   fieldStyle = {},
   defaultValue = "",
+  wrapperStyle = {},
 }) => {
-  const { values, errors, touched, handleChange, handleBlur, setFieldValue } = formik;
+  const { values, errors, touched, handleChange, handleBlur, setFieldValue } =
+    formik;
   const isError = useMemo(
     () => errors[fieldName] && touched[fieldName],
     [errors, touched, fieldName]
@@ -24,7 +26,7 @@ const SelectField = ({
   }, [fieldName, setFieldValue, defaultValue, values]);
 
   const handleClick = (event) => {
-    event.stopPropagation();  
+    event.stopPropagation();
   };
 
   return (
@@ -53,6 +55,7 @@ const SelectField = ({
           border: "1px solid black",
           transition: "box-shadow 0.3s ease-in-out",
           width: "fit-content",
+          ...wrapperStyle,
         }}
         onClick={handleClick}
       >

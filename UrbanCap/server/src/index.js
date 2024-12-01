@@ -42,7 +42,6 @@ io.use((socket, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
-      console.log("🔊🔊🔊🔊🔊🔊 ~ jwt.verify ~ err:", err);
       return next(new Error("Authentication error: Invalid token"));
     }
 

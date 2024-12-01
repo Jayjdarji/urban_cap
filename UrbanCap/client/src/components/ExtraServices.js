@@ -1,117 +1,61 @@
-import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-import IronIcon from "@mui/icons-material/Iron";
 import KitchenIcon from "@mui/icons-material/Kitchen";
-import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
-import StoreMallDirectoryIcon from "@mui/icons-material/StoreMallDirectory";
 import { Box, Grid, Paper, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
-
+import CheckroomIcon from "@mui/icons-material/Checkroom";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import PlumbingIcon from "@mui/icons-material/Plumbing";
+import WorkIcon from "@mui/icons-material/Work";
 const ExtraServices = () => {
-  const [activeTab, setActiveTab] = useState("homeCleaning");
+  const [activeTab, setActiveTab] = useState("endOfTenancy");
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
   const services = {
-    homeCleaning: [
-      {
-        ICON: CleaningServicesIcon,
-        title: "Window cleaning",
-        description:
-          "Clean your windows and mirrors with our professional cleaning services. We use only the highest quality cleaning products to ensure your home is spotless and sparkling clean.",
-      },
-      {
-        ICON: KitchenIcon,
-        title: "Inside fridge",
-        description:
-          "Clean your fridge and freezer with our professional cleaning services. We use only the highest quality cleaning products to ensure your fridge is spotless and sparkling clean.",
-      },
-      {
-        ICON: LocalLaundryServiceIcon,
-        title: "Laundry",
-        description:
-          "Keep your clothes clean and fresh with our professional laundry services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
-      },
-      {
-        ICON: IronIcon,
-        title: "Ironing",
-        description:
-          "Keep your clothes clean and fresh with our professional ironing services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
-      },
-      {
-        ICON: StoreMallDirectoryIcon,
-        title: "Inside cabinets",
-        description:
-          "Clean your cabinets and drawers with our professional cleaning services. We use only the highest quality cleaning products to ensure your cabinets are spotless and sparkling clean.",
-      },
-    ],
     endOfTenancy: [
       {
-        ICON: IronIcon,
-        title: "Ironing",
+        ICON: ExitToAppIcon,
+        title: "Full apartment cleaning",
         description:
-          "Keep your clothes clean and fresh with our professional ironing services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
+          "Thorough cleaning of your apartment, including floors, walls, and all surfaces, ensuring it is ready for the next tenant.",
       },
       {
-        ICON: KitchenIcon,
-        title: "Inside fridge",
+        ICON: CheckroomIcon,
+        title: "Wardrobe organization",
         description:
-          "Clean your fridge and freezer with our professional cleaning services. We use only the highest quality cleaning products to ensure your fridge is spotless and sparkling clean.",
+          "Organize and clean your wardrobes to leave them spotless and neatly arranged for the next use.",
       },
       {
-        ICON: CleaningServicesIcon,
-        title: "Window cleaning",
+        ICON: PlumbingIcon,
+        title: "Bathroom sanitization",
         description:
-          "Clean your windows and mirrors with our professional cleaning services. We use only the highest quality cleaning products to ensure your home is spotless and sparkling clean.",
-      },
-      {
-        ICON: LocalLaundryServiceIcon,
-        title: "Laundry",
-        description:
-          "Keep your clothes clean and fresh with our professional laundry services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
-      },
-
-      {
-        ICON: StoreMallDirectoryIcon,
-        title: "Inside cabinets",
-        description:
-          "Clean your cabinets and drawers with our professional cleaning services. We use only the highest quality cleaning products to ensure your cabinets are spotless and sparkling clean.",
+          "Deep cleaning and sanitization of your bathroom to ensure it is sparkling clean and hygienic.",
       },
     ],
     businessCleaning: [
       {
-        ICON: CleaningServicesIcon,
-        title: "Window cleaning",
+        ICON: WorkIcon,
+        title: "Desk and cubicle cleaning",
         description:
-          "Clean your windows and mirrors with our professional cleaning services. We use only the highest quality cleaning products to ensure your home is spotless and sparkling clean.",
+          "Clean and sanitize desks and cubicles, creating a spotless and professional workspace.",
+      },
+      {
+        ICON: MeetingRoomIcon,
+        title: "Meeting room cleaning",
+        description:
+          "Deep cleaning of meeting rooms to ensure they are ready for important discussions and presentations.",
       },
       {
         ICON: KitchenIcon,
-        title: "Inside fridge",
+        title: "Pantry cleaning",
         description:
-          "Clean your fridge and freezer with our professional cleaning services. We use only the highest quality cleaning products to ensure your fridge is spotless and sparkling clean.",
-      },
-      {
-        ICON: LocalLaundryServiceIcon,
-        title: "Laundry",
-        description:
-          "Keep your clothes clean and fresh with our professional laundry services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
-      },
-      {
-        ICON: IronIcon,
-        title: "Ironing",
-        description:
-          "Keep your clothes clean and fresh with our professional ironing services. We use only the highest quality cleaning products to ensure your clothes are spotless and sparkling clean.",
-      },
-      {
-        ICON: StoreMallDirectoryIcon,
-        title: "Inside cabinets",
-        description:
-          "Clean your cabinets and drawers with our professional cleaning services. We use only the highest quality cleaning products to ensure your cabinets are spotless and sparkling clean.",
+          "Thorough cleaning of the pantry area, including appliances and surfaces, ensuring hygiene and cleanliness.",
       },
     ],
   };
+  const handleClick = (title) => {};
 
   return (
     <Box
@@ -145,18 +89,13 @@ const ExtraServices = () => {
           indicatorColor="secondary"
         >
           <Tab
-            value="homeCleaning"
-            label="Home cleaning"
-            sx={{ textTransform: "none", fontSize: "1.2rem" }}
-          />
-          <Tab
             value="endOfTenancy"
             label="End of tenancy"
             sx={{ textTransform: "none", fontSize: "1.2rem" }}
           />
           <Tab
             value="businessCleaning"
-            label="Business cleaning"
+            label="Business"
             sx={{ textTransform: "none", fontSize: "1.2rem" }}
           />
         </Tabs>
@@ -173,7 +112,9 @@ const ExtraServices = () => {
                 alignItems: "center",
                 backgroundColor: "#ffffff",
                 color: "#4A00E0",
+                cursor: "pointer",
               }}
+              onClick={() => handleClick(title)}
             >
               <ICON sx={{ marginRight: "10px", fontSize: "2rem" }} />
               <Typography variant="h6">{title}</Typography>

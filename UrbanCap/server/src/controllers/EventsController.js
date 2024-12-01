@@ -52,7 +52,6 @@ const EventController = {
         event: savedEvent,
       });
     } catch (error) {
-      console.log("🔊🔊🔊🔊🔊🔊 ~ createEvent: ~ error:", error);
       res.status(400).json({
         message: "Failed to request a quote",
         error: error.message,

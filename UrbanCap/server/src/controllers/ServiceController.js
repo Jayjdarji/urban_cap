@@ -50,7 +50,6 @@ const ServiceController = {
         service: savedService,
       });
     } catch (error) {
-      console.log("🔊🔊🔊🔊🔊🔊 ~ createService: ~ error:", error);
       res.status(400).json({
         message: "Failed to book service",
         error: error.message,

@@ -12,10 +12,22 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import moment from "moment";
 import React from "react";
 import CommonButton from "../../form-fields/CommonButton";
 import axios from "axios";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  textAlign: "center",
+  [`&.MuiTableCell-head`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.MuiTableCell-body`]: {
+    fontSize: 14,
+  },
+}));
 
 const OrdersTable = ({ orders, refetch }) => {
   const [expanded, setExpanded] = React.useState(false);
@@ -51,13 +63,11 @@ const OrdersTable = ({ orders, refetch }) => {
         <Table aria-label="Orders Table">
           <TableHead>
             <TableRow>
-              <TableCell>User</TableCell>
-              <TableCell>Number of persons</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Additional Information</TableCell>
-              <TableCell colSpan={2} sx={{ textAlign: "center" }}>
-                Actions
-              </TableCell>
+              <StyledTableCell>User</StyledTableCell>
+              <StyledTableCell>Number of persons</StyledTableCell>
+              <StyledTableCell>Date</StyledTableCell>
+              <StyledTableCell>Additional Information</StyledTableCell>
+              <StyledTableCell colSpan={2}>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,12 +75,12 @@ const OrdersTable = ({ orders, refetch }) => {
               .filter((row) => !!row?.userId?.name)
               .map((row) => (
                 <TableRow key={row._id}>
-                  <TableCell>{row?.userId?.name}</TableCell>
-                  <TableCell>{row.numberOfPersons}</TableCell>
-                  <TableCell>
+                  <StyledTableCell>{row?.userId?.name}</StyledTableCell>
+                  <StyledTableCell>{row.numberOfPersons}</StyledTableCell>
+                  <StyledTableCell>
                     {moment(row.date).format("MMM DD, YYYY")}
-                  </TableCell>
-                  <TableCell>
+                  </StyledTableCell>
+                  <StyledTableCell>
                     <IconButton
                       onClick={() => handleOpen(row.additionalRequests)}
                     >
@@ -79,11 +89,10 @@ const OrdersTable = ({ orders, refetch }) => {
                         sx={{ color: "#000" }}
                       />
                     </IconButton>
-                  </TableCell>
+                  </StyledTableCell>
                   {row.active === null && (
-                    <TableCell
+                    <StyledTableCell
                       sx={{
-                        textAlign: "center",
                         display: "flex",
                         gap: 1,
                         alignItems: "center",
@@ -116,10 +125,10 @@ const OrdersTable = ({ orders, refetch }) => {
                         label={"Reject"}
                         width="max-content"
                       />
-                    </TableCell>
+                    </StyledTableCell>
                   )}
                   {row.active === "Accepted" && (
-                    <TableCell
+                    <StyledTableCell
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -137,11 +146,11 @@ const OrdersTable = ({ orders, refetch }) => {
                         label={row.active}
                         width="max-content"
                       />
-                    </TableCell>
+                    </StyledTableCell>
                   )}
                   {(row.active === "Rejected" ||
                     row.active === "Cancelled") && (
-                    <TableCell
+                    <StyledTableCell
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -159,7 +168,7 @@ const OrdersTable = ({ orders, refetch }) => {
                         label={row.active}
                         width="max-content"
                       />
-                    </TableCell>
+                    </StyledTableCell>
                   )}
                 </TableRow>
               ))}

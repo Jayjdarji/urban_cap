@@ -1,5 +1,6 @@
 import { Box, Skeleton, Typography } from "@mui/material";
 import React from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const StatCard = ({ title, number = 0, handleLClick, loading }) => {
   const handleCardClick = () => {
@@ -29,10 +30,37 @@ const StatCard = ({ title, number = 0, handleLClick, loading }) => {
       }}
       onClick={handleCardClick}
     >
-      <Box sx={{ width: "150px" }}>
+      <Box
+        sx={{
+          width: "150px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
         {!loading && <Typography>{title}</Typography>}
         {loading && (
           <Skeleton variant="text" width={100} height={50} animation="wave" />
+        )}
+        {isClickable && !loading && (
+          <Typography
+            sx={{
+              fontSize: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+              pb: 0.2,
+              "&:hover": {
+                textDecoration: "underline",
+                color: "blue",
+              },
+              transition: "all 0.1s ease-in",
+            }}
+            onClick={handleCardClick}
+          >
+            More Details
+            <ArrowForwardIcon fontSize="small" />
+          </Typography>
         )}
       </Box>
       <Box

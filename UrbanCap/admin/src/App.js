@@ -10,6 +10,7 @@ import PrivateLayout from "./components/PrivateLayout";
 import Dashboard from "./pages/Dashboard";
 import Service from "./pages/Service";
 import EventDetails from "./components/dashboard/Events/EventDetails";
+import Users from "./pages/Users";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -17,7 +18,7 @@ function App() {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
   axios.defaults.baseURL =
-    process.env.REACT_APP_API_URL || "https://urban-cap.onrender.com/api";
+    process.env.REACT_APP_API_URL || "http://localhost:5321/api";
   axios.defaults.headers.post["Content-Type"] = "application/json";
 
   return (
@@ -47,7 +48,6 @@ function App() {
                 </PrivateLayout>
               }
             />
-            <Route path=":serviceKey" element={<Service />} />
           </Route>
           <Route path="/event-planning">
             <Route
@@ -58,7 +58,16 @@ function App() {
                 </PrivateLayout>
               }
             />
-            <Route path=":eventKey" element={<EventDetails />} />
+          </Route>
+          <Route path="/users">
+            <Route
+              index
+              element={
+                <PrivateLayout>
+                  <Users />
+                </PrivateLayout>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

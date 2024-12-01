@@ -70,7 +70,6 @@ const AuthController = {
         email,
         userType: "SERVICE_PROVIDER",
       });
-      console.log("🔊🔊🔊🔊🔊🔊 ~ adminSignin ~ dbUser:", dbUser);
 
       if (email !== adminUser.email && dbUser === null) {
         return response
@@ -322,7 +321,6 @@ const AuthController = {
         .status(200)
         .json({ message: "Password reset successful", success: 1 });
     } catch (error) {
-      console.log("🚀🚀🚀 ~ resetPassword ~ error:", error);
       return response.status(500).json({
         message: error.message,
         success: 0,
