@@ -6,8 +6,16 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import PlumbingIcon from "@mui/icons-material/Plumbing";
 import WorkIcon from "@mui/icons-material/Work";
+import { useModal } from "../Context";
+import ExtraServiceModal from "./ExtraServiceModal";
 const ExtraServices = () => {
+  const {
+    openExtraServiceModal,
+    isExtraServiceModalOpen,
+    closeExtraServiceModal,
+  } = useModal();
   const [activeTab, setActiveTab] = useState("endOfTenancy");
+  const [title, setTitle] = useState();
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -55,74 +63,90 @@ const ExtraServices = () => {
       },
     ],
   };
-  const handleClick = (title) => {};
+  const handleClick = (title) => {
+    setTitle(title);
+    openExtraServiceModal();
+  };
 
   return (
-    <Box
-      sx={{
-        marginTop: "50px",
-        backgroundColor: "#4A00E0",
-        padding: "40px",
-        color: "white",
-      }}
-    >
-      <Typography
-        variant="h3"
-        align="center"
-        sx={{ fontWeight: "bold", marginBottom: "20px" }}
-      >
-        Extra Services, Extra Convenience
-      </Typography>
-      <Typography variant="body1" align="center" sx={{ marginBottom: "20px" }}>
-        Easily add extra services to your booking by choosing from a variety of
-        options tailored to your needs, all with just a few clicks.
-      </Typography>
-
-      {/* Tabs */}
+    <>
       <Box
-        sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}
+        sx={{
+          marginTop: "50px",
+          backgroundColor: "#4A00E0",
+          padding: "40px",
+          color: "white",
+        }}
       >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          textColor="inherit"
-          indicatorColor="secondary"
+        <Typography
+          variant="h3"
+          align="center"
+          sx={{ fontWeight: "bold", marginBottom: "20px" }}
         >
-          <Tab
-            value="endOfTenancy"
-            label="End of tenancy"
-            sx={{ textTransform: "none", fontSize: "1.2rem" }}
-          />
-          <Tab
-            value="businessCleaning"
-            label="Business"
-            sx={{ textTransform: "none", fontSize: "1.2rem" }}
-          />
-        </Tabs>
-      </Box>
+          Extra Services, Extra Convenience
+        </Typography>
+        <Typography
+          variant="body1"
+          align="center"
+          sx={{ marginBottom: "20px" }}
+        >
+          Easily add extra services to your booking by choosing from a variety
+          of options tailored to your needs, all with just a few clicks.
+        </Typography>
 
-      {/* Extra Services Grid */}
-      <Grid container spacing={3} justifyContent="center">
-        {services[activeTab].map(({ ICON, title }) => (
-          <Grid item xs={12} md={4}>
-            <Paper
-              sx={{
-                padding: "15px",
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "#ffffff",
-                color: "#4A00E0",
-                cursor: "pointer",
-              }}
-              onClick={() => handleClick(title)}
-            >
-              <ICON sx={{ marginRight: "10px", fontSize: "2rem" }} />
-              <Typography variant="h6">{title}</Typography>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+        {/* Tabs */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            textColor="inherit"
+            indicatorColor="secondary"
+          >
+            <Tab
+              value="endOfTenancy"
+              label="End of tenancy"
+              sx={{ textTransform: "none", fontSize: "1.2rem" }}
+            />
+            <Tab
+              value="businessCleaning"
+              label="Business"
+              sx={{ textTransform: "none", fontSize: "1.2rem" }}
+            />
+          </Tabs>
+        </Box>
+
+        {/* Extra Services Grid */}
+        <Grid container spacing={3} justifyContent="center">
+          {services[activeTab].map(({ ICON, title }) => (
+            <Grid item xs={12} md={4}>
+              <Paper
+                sx={{
+                  padding: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#ffffff",
+                  color: "#4A00E0",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleClick(title)}
+              >
+                <ICON sx={{ marginRight: "10px", fontSize: "2rem" }} />
+                <Typography variant="h6">{title}</Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      {isExtraServiceModalOpen && (
+        <ExtraServiceModal handleClose={closeExtraServiceModal} title={title} />
+      )}
+    </>
   );
 };
 

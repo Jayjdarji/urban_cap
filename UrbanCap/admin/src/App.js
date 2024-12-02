@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Service from "./pages/Service";
 import EventDetails from "./components/dashboard/Events/EventDetails";
 import Users from "./pages/Users";
+import ExtraServices from "./pages/ExtraServices";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -18,7 +19,7 @@ function App() {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
   axios.defaults.baseURL =
-    process.env.REACT_APP_API_URL || "https://urban-cap.onrender.com/api";
+    process.env.REACT_APP_API_URL || "http://localhost:5321/api";
   axios.defaults.headers.post["Content-Type"] = "application/json";
 
   return (
@@ -69,6 +70,14 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="/extra-services"
+            element={
+              <PrivateLayout>
+                <ExtraServices />
+              </PrivateLayout>
+            }
+          />
         </Routes>
       </BrowserRouter>
       <ToastContainer

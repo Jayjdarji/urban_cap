@@ -78,12 +78,6 @@ const AuthController = {
         isSuspended: false,
       });
 
-      if (!dbUser) {
-        return response
-          .status(404)
-          .json({ message: "User not found", success: 0 });
-      }
-
       if (email !== adminUser.email && dbUser === null) {
         return response
           .status(404)

@@ -14,15 +14,20 @@ const pastBookingSchema = new mongoose.Schema(
       type: Date,
       required: false,
     },
-    eventId: {
+    event: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
       ref: "EventDetails",
     },
-    serviceId: {
+    service: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
       ref: "ServiceDetails",
+    },
+    extraService: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "ExtraService",
     },
     createdAt: {
       type: Date,

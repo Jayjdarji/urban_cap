@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import Grid from "@mui/material/Grid";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import UsersCards from "../components/UsersCards";
-import Grid from "@mui/material/Grid";
 import UsersTable from "../components/UsersTable";
-import axios from "axios";
 
 const Users = ({ loading }) => {
   const location = useLocation();

@@ -43,7 +43,6 @@ export const Context = ({ children }) => {
       closeContactUs();
       closeEmailVerification();
       closeRequestQuote();
-      closeExtraServiceModal();
     }
   }, [isLoginOpen]);
 
@@ -54,7 +53,6 @@ export const Context = ({ children }) => {
       closeContactUs();
       closeEmailVerification();
       closeRequestQuote();
-      closeExtraServiceModal();
     }
   }, [isRegisterOpen]);
 
@@ -98,7 +96,6 @@ export const Context = ({ children }) => {
       closeResetPassword();
       closeContactUs();
       closeEmailVerification();
-      closeExtraServiceModal();
     }
   }, [isRequestQuoteOpen]);
 

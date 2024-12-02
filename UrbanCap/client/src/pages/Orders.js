@@ -31,7 +31,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/services/all/bookings");
+      const response = await axios.get("/common/bookings");
       setOrders(response.data.bookings);
     } catch (error) {
       console.log(error);
@@ -65,14 +65,14 @@ const Orders = () => {
             <Grid item xs={12} sm={6} md={4} lg={2.5}>
               <PastOrderCard
                 type={
-                  order.serviceId
+                  order.service
                     ? "Furniture Assembly"
-                    : EVENTS_OBJ[order?.eventId?.eventType]?.label
+                    : order.event
+                    ? EVENTS_OBJ[order?.event?.eventType]?.label
+                    : order.extraService.title
                 }
                 bookedAt={order.startDate}
-                onMoreDetails={() =>
-                  handleOpen(order?.serviceId || order?.eventId)
-                }
+                onMoreDetails={() => handleOpen(order)}
               />
             </Grid>
           ))}
@@ -80,9 +80,18 @@ const Orders = () => {
       </Grid>
       {open && (
         <EventDetailsModal
+          type={
+            eventData.service
+              ? "Furniture Assembly"
+              : eventData.event
+              ? EVENTS_OBJ[eventData?.event?.eventType]?.label
+              : eventData.extraService.title
+          }
           open={open}
           onClose={handleClose}
-          eventData={eventData}
+          eventData={
+            eventData.service || eventData.event || eventData.extraService
+          }
         />
       )}
     </PrivateLayout>

@@ -41,7 +41,7 @@ const ServiceController = {
       await PastBooking.create({
         userId: req.user.id,
         startDate: date,
-        serviceId: savedService._id,
+        service: savedService._id,
       });
 
       // Return the saved document

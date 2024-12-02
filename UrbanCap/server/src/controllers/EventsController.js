@@ -44,7 +44,7 @@ const EventController = {
       await PastBooking.create({
         userId: user.id,
         startDate: date,
-        eventId: savedEvent._id,
+        event: savedEvent._id,
       });
 
       res.status(201).json({

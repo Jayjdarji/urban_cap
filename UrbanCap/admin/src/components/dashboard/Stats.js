@@ -42,6 +42,14 @@ const Stats = ({ stats, loading }) => {
           loading={loading}
         />
       </Grid>
+      <Grid item xs={12} sm={12} md={6} lg={4}>
+        <StatCard
+          title="Extra Services"
+          number={stats?.extraServices}
+          loading={loading}
+          handleLClick={() => navigate("/extra-services")}
+        />
+      </Grid>
     </Grid>
   );
 };

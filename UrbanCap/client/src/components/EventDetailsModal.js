@@ -1,22 +1,28 @@
 // EventDetailsModal.js
-import React from "react";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography,
   Divider,
+  Typography,
 } from "@mui/material";
-import { EVENTS_OBJ } from "../utils/data";
-import CommonButton from "./form-fields/CommonButton";
 import axios from "axios";
+import React from "react";
+import CommonButton from "./form-fields/CommonButton";
 
-const EventDetailsModal = ({ open, onClose, eventData }) => {
+const EventDetailsModal = ({ type, open, onClose, eventData }) => {
   if (!eventData) return <Typography>No event data available.</Typography>;
 
-  const { _id, eventType, userId, numberOfPersons, date, additionalRequests } =
-    eventData;
+  const {
+    _id,
+    eventType,
+    serviceKey,
+    userId,
+    numberOfPersons,
+    date,
+    additionalRequests,
+  } = eventData;
 
   const formattedDate = new Date(date).toLocaleString(); // Format the date as per your needs
 
@@ -28,8 +34,10 @@ const EventDetailsModal = ({ open, onClose, eventData }) => {
         eventType === "indoorRockClimbing"
       ) {
         await axios.post(`/events/cancel`, { id });
-      } else {
+      } else if (serviceKey === "furnitureAssembly") {
         await axios.post(`/services/cancel`, { id });
+      } else {
+        await axios.post(`/common/extraServices/cancel`, { id });
       }
       onClose(true);
     } catch (error) {
@@ -45,8 +53,7 @@ const EventDetailsModal = ({ open, onClose, eventData }) => {
           <strong>Event ID:</strong> {_id}
         </Typography>
         <Typography variant="body2" color="textSecondary" gutterBottom>
-          <strong>Event Type:</strong>{" "}
-          {EVENTS_OBJ[eventType]?.label || "Furniture Assembly"}
+          <strong>Event Type:</strong> {type}
         </Typography>
         <Typography variant="body2" color="textSecondary" gutterBottom>
           <strong>User ID:</strong> {userId}

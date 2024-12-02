@@ -13,6 +13,7 @@ export const ProductCard = styled(Card)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   height: "100%",
+  margin: "5px 0px",
 }));
 
 export const PriceTypography = styled(Typography)({

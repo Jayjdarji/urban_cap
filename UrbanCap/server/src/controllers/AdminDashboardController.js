@@ -3,6 +3,7 @@ import { ServiceDetails } from "../models/ServiceDetails.js";
 import { User } from "../models/Users.js";
 import { Services } from "../models/Services.js";
 import { Event } from "../models/Event.js";
+import { ExtraService } from "../models/ExtraService.js";
 import {
   sendBookingAcceptedMail,
   sendBookingRejectedMail,
@@ -25,6 +26,7 @@ const AdminDashboardController = {
       const totalProviders = await User.countDocuments().where({
         userType: "SERVICE_PROVIDER",
       });
+      const extraServices = await ExtraService.countDocuments();
       const servicesBooked = await ServiceDetails.countDocuments().where({
         ...payload,
       });
@@ -62,6 +64,8 @@ const AdminDashboardController = {
         rockClimbingCount,
         providers:
           req.user.userType === "SERVICE_PROVIDER" ? null : totalProviders,
+        extraServices:
+          req.user.userType === "SERVICE_PROVIDER" ? null : extraServices,
       });
     } catch (error) {
       res.status(500).json({
@@ -436,6 +440,78 @@ const AdminDashboardController = {
     } catch (error) {
       return res.status(500).json({
         message: "Failed to suspend User",
+        error: error.message,
+      });
+    }
+  },
+
+  getAllExtraServices: async (req, res) => {
+    try {
+      const extraServices = await ExtraService.find();
+      res.status(200).json({
+        message: "All Extra Services fetched successfully",
+        extraServices,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to fetch all Extra Services",
+        error: error.message,
+      });
+    }
+  },
+
+  acceptExtraService: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const extraService = await ExtraService.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+
+      if (extraService) {
+        extraService.active = "Accepted";
+        await extraService.save();
+        sendBookingAcceptedMail(extraService.userId.email, id);
+        return res.status(200).json({
+          message: "Extra Service booking accepted successfully",
+          extraService,
+        });
+      }
+      return res.status(400).json({
+        message: "Extra Service booking not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to accept Extra Service Booking",
+        error: error.message,
+      });
+    }
+  },
+
+  rejectExtraService: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const extraService = await ExtraService.findById(id).populate({
+        path: "userId",
+        ref: "User",
+      });
+      if (extraService) {
+        extraService.active = "Rejected";
+        await extraService.save();
+        sendBookingAcceptedMail(extraService.userId.email, id);
+        return res.status(200).json({
+          message: "Extra Service booking rejected successfully",
+          extraService,
+        });
+      }
+      return res.status(400).json({
+        message: "Extra Service booking not found",
+        status: 400,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to reject Extra Service Booking",
         error: error.message,
       });
     }

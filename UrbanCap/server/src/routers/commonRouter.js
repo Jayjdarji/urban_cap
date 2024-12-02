@@ -9,4 +9,12 @@ router.get(
   CommonController.getAllBookingsByUserId
 );
 
+router.post("/extraServices", authMiddleware, CommonController.addExtraService);
+router.post(
+  "/extraServices/cancel",
+  authMiddleware,
+  CommonController.cancelExtraService
+);
+
+
 export { router as commonRouter };
