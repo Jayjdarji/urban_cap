@@ -290,7 +290,7 @@ const AuthController = {
         { expiresIn: "1h" }
       );
 
-      const resetLink = `http://localhost:3000/reset-password/${token}`;
+      const resetLink = `https://urban-cap-client.vercel.app/reset-password/${token}`;
 
       const mailOptions = {
         from: process.env.EMAIL_USER,

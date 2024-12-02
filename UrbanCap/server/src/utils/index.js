@@ -21,7 +21,7 @@ export const sendEmailVerificationMail = (receiver, data) => {
 
     const htmlContent = emailTemplate.replace(
       "{{verificationLink}}",
-      `http://localhost:3000/verification/${data}`
+      `https://urban-cap-client.vercel.app/verification/${data}`
     );
 
     const mailOptions = {

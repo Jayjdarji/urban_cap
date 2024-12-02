@@ -10,7 +10,7 @@ const configureSocket = (server) => {
 
     io = new Server(server, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "https://urban-cap-client.vercel.app",
         methods: ["GET", "POST"],
         credentials: true,
       },
