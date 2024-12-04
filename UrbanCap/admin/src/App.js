@@ -19,7 +19,7 @@ function App() {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
   axios.defaults.baseURL =
-    process.env.REACT_APP_API_URL || "http://localhost:5321/api";
+    process.env.REACT_APP_API_URL || "https://urban-cap.onrender.com/api";
   axios.defaults.headers.post["Content-Type"] = "application/json";
 
   return (
