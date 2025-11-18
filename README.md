@@ -8,5 +8,5 @@ In today's fast-paced world, convenience, comfort and accessibility are paramoun
 
 👨‍💻 **Jay Darji**  
 🎓 Web Development Graduate – Conestoga College  
-💼 Former Software Tester | QA Enthusiast  
+💼 Software Tester | QA Enthusiast  
 🌐 [GitHub](https://github.com/Jayjdarji) | [LinkedIn](https://www.linkedin.com/in/jaydarji529)
